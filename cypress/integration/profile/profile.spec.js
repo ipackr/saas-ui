@@ -56,7 +56,7 @@ context('User Profile', () => {
 
   it('SAAS-T128 should be able to open profile page', () => {
     // Open dropdown menu
-    profileIcon().click();
+    profileIcon().isVisible().click({ force: true });
     dropdownMenu().isVisible();
 
     // Select Profile option from dropdown

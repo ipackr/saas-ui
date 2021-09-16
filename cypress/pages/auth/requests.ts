@@ -5,26 +5,26 @@ export const setAliases = () => {
 
   cy.intercept({
     method: 'POST',
-    url: '/percona.platform.auth.v1.AuthAPI/RefreshSession',
+    url: '/v1/auth/RefreshSession',
   }).as('refresh');
 
   cy.intercept({
     method: 'POST',
-    url: '/percona.platform.auth.v1.AuthAPI/SignIn',
+    url: '/v1/auth/SignIn',
   }).as('signin');
 
   cy.intercept({
     method: 'POST',
-    url: '/percona.platform.auth.v1.AuthAPI/SignUp',
+    url: '/v1/auth/SignUp',
   }).as('signup');
 
   cy.intercept({
     method: 'POST',
-    url: '/percona.platform.auth.v1.AuthAPI/SignOut',
+    url: '/v1/auth/SignOut',
   }).as('signout');
 
   cy.intercept({
     method: 'POST',
-    url: '/percona.platform.auth.v1.AuthAPI/UpdateProfile',
+    url: '/v1/auth/UpdateProfile',
   }).as('updateProfile');
 };

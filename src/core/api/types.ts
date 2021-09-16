@@ -1,9 +1,57 @@
-import { AuthPB } from 'core';
+export interface RequestBody {
+  [key: string]: any;
+}
 
-export type SignIn = ({ email, password }: AuthPB.SignInRequest.AsObject) => Promise<AuthPB.SignInResponse>;
+export interface RequestError {
+  code: number;
+  message: string;
+}
+export interface RefreshSessionResponse {
+  email: string;
+  expireTime?: string;
+}
 
-export type SignUp = ({ email, firstName, lastName, password }: AuthPB.SignUpRequest.AsObject) =>
-  Promise<AuthPB.SignUpResponse>;
+export interface SignInRequest {
+  email: string;
+  password: string;
+}
 
-export type UpdateProfile = ({ firstName, lastName }: AuthPB.UpdateProfileRequest.AsObject) =>
-  Promise<AuthPB.UpdateProfileResponse>;
+export interface SignInResponse {
+  sessionId: string;
+  expireTime?: string;
+}
+
+export interface SignUpRequest {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface SignUpResponse {
+  sessionId: string;
+  expireTime?: string;
+}
+
+export interface GetProfileResponse {
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
+export interface UpdateProfileRequest {
+  firstName: string;
+  lastName: string;
+}
+
+export interface ResetPasswordRequest {
+  email: string;
+}
+
+export type SignUp = ({ email, firstName, lastName, password }: SignUpRequest) =>
+  Promise<SignUpResponse>;
+
+export type GetProfile = () => Promise<GetProfileResponse>;
+
+export type UpdateProfile = ({ firstName, lastName }: UpdateProfileRequest) =>
+  Promise<Response>;

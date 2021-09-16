@@ -30,7 +30,7 @@ export const INVALID_USER: InvalidUser = {
     lastName: 'Doe',
     password: 'Password123',
   },
-  invalidLoginMessage: 'Incorrect username or password.',
+  invalidLoginMessage: 'There was a problem during the login process, please try again',
   invalidSignUpMessage: 'There was a problem during the sign up process, please try again',
 };
 

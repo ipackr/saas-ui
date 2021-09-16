@@ -1,16 +1,23 @@
-import { AuthPB } from 'core';
 import {
   all, put, call, takeLatest, StrictEffect,
 } from 'redux-saga/effects';
+import { AxiosResponse } from 'axios';
+import { logger } from '@percona/platform-core';
 import {
-  refreshSession, signIn, signUp, signOut, getProfile, updateProfile,
+  signIn, signUp, signOut, getProfile, updateProfile, refreshSession,
 } from 'core/api/auth';
-import { SignUp } from 'core/api/types';
+import {
+  GetProfileResponse,
+  RefreshSessionResponse,
+  RequestError,
+  SignInResponse,
+  SignUpResponse,
+} from 'core/api/types';
 import { Messages } from 'core/api/messages';
-import * as grpcWeb from 'grpc-web';
 import { toast } from 'react-toastify';
 import { Routes } from 'core/routes';
 import { history } from 'core/history';
+import { HTTP_STATUS } from 'core/api';
 import {
   authRefreshAction,
   authLoginAction,
@@ -22,26 +29,26 @@ import {
 
 // Refresh Session
 
-type AuthRefreshSessionRequestGenerator = Generator<StrictEffect, void, AuthPB.RefreshSessionResponse>;
+type AuthRefreshSessionRequestGenerator = Generator<
+  StrictEffect, void, AxiosResponse<RefreshSessionResponse>
+>;
 
 export function* authRefreshSessionRequest(): AuthRefreshSessionRequestGenerator {
   try {
-    const response: AuthPB.RefreshSessionResponse = yield call(refreshSession);
+    const { data } = yield call(refreshSession);
 
-    yield put(authRefreshAction.success({ email: response.getEmail() }));
-  } catch (e) {
-    if (e.code !== grpcWeb.StatusCode.UNAUTHENTICATED) {
-      console.error(e);
-    }
+    yield put(authRefreshAction.success({ email: data.email }));
+  } catch (e: any) {
+    logger.error(e.message || e);
 
-    yield put(authRefreshAction.failure(e));
+    yield put(authRefreshAction.failure(e as RequestError));
   }
 }
 
 // Login
 
 type AuthLoginActionRequest = ReturnType<typeof authLoginAction.request>;
-type AuthLoginRequestGenerator = Generator<StrictEffect, void, AuthPB.SignInResponse>;
+type AuthLoginRequestGenerator = Generator<StrictEffect, void, SignInResponse>;
 
 export function* authLoginRequest(action: AuthLoginActionRequest): AuthLoginRequestGenerator {
   try {
@@ -49,7 +56,7 @@ export function* authLoginRequest(action: AuthLoginActionRequest): AuthLoginRequ
 
     yield put(authLoginAction.success({ email: action.payload.email }));
   } catch (e) {
-    yield put(authLoginAction.failure(e));
+    yield put(authLoginAction.failure(e as RequestError));
   }
 }
 
@@ -57,7 +64,7 @@ type AuthLoginActionFailure = ReturnType<typeof authLoginAction.failure>;
 type AuthLoginFailureGenerator = Generator<StrictEffect, void, never>;
 
 export function* authLoginFailure(action: AuthLoginActionFailure): AuthLoginFailureGenerator {
-  if (action.payload.code === grpcWeb.StatusCode.INVALID_ARGUMENT) {
+  if (action.payload.code === HTTP_STATUS.UNAUTHORIZED) {
     yield call([toast, toast.error], action.payload.message);
   } else {
     yield call([toast, toast.error], Messages.signInFailed);
@@ -76,15 +83,15 @@ export function* authLoginSuccess(action: AuthLoginActionSuccess): AuthLoginSucc
 // Signup
 
 type AuthSignupActionRequest = ReturnType<typeof authSignupAction.request>;
-type AuthSignupRequestGenerator = Generator<StrictEffect, void, AuthPB.SignUpResponse>;
+type AuthSignupRequestGenerator = Generator<StrictEffect, void, SignUpResponse>;
 
 export function* authSignupRequest(action: AuthSignupActionRequest): AuthSignupRequestGenerator {
   try {
-    yield call<SignUp>(signUp, action.payload);
+    yield call(signUp, action.payload);
 
     yield put(authSignupAction.success());
   } catch (e) {
-    yield put(authSignupAction.failure(e));
+    yield put(authSignupAction.failure(e as RequestError));
   }
 }
 
@@ -105,7 +112,7 @@ export function* authSignupSuccess(): AuthSignupSuccessGenerator {
 
 // Logout
 
-type AuthLogoutRequestGenerator = Generator<StrictEffect, void, AuthPB.SignOutResponse>;
+type AuthLogoutRequestGenerator = Generator<StrictEffect, void, never>;
 
 export function* authLogoutRequest(): AuthLogoutRequestGenerator {
   try {
@@ -113,7 +120,7 @@ export function* authLogoutRequest(): AuthLogoutRequestGenerator {
 
     yield put(authLogoutAction.success());
   } catch (e) {
-    yield put(authLogoutAction.failure(e));
+    yield put(authLogoutAction.failure(e as RequestError));
   }
 }
 
@@ -134,19 +141,19 @@ export function* authLogoutSuccess(): AuthLogoutSuccessGenerator {
 
 // Get Profile
 
-type AuthGetProfileRequestGenerator = Generator<StrictEffect, void, AuthPB.GetProfileResponse>;
+type AuthGetProfileRequestGenerator = Generator<StrictEffect, void, AxiosResponse<GetProfileResponse>>;
 
 export function* authGetProfileRequest(): AuthGetProfileRequestGenerator {
   try {
-    const response: AuthPB.GetProfileResponse = yield call(getProfile);
+    const { data } = yield call(getProfile);
 
     yield put(authGetProfileAction.success({
-      email: response.getEmail(),
-      firstName: response.getFirstName(),
-      lastName: response.getLastName(),
+      email: data.email,
+      firstName: data.first_name,
+      lastName: data.last_name,
     }));
   } catch (e) {
-    yield put(authGetProfileAction.failure(e));
+    yield put(authGetProfileAction.failure(e as RequestError));
   }
 }
 
@@ -163,7 +170,7 @@ AuthGetProfileFailureGenerator {
 // Update Profile
 
 type AuthUpdateProfileActionRequest = ReturnType<typeof authUpdateProfileAction.request>;
-type AuthUpdateProfileRequestGenerator = Generator<StrictEffect, void, AuthPB.UpdateProfileResponse>;
+type AuthUpdateProfileRequestGenerator = Generator<StrictEffect, void, Response>;
 
 export function* authUpdateProfileRequest(
   action: AuthUpdateProfileActionRequest): AuthUpdateProfileRequestGenerator {
@@ -172,7 +179,7 @@ export function* authUpdateProfileRequest(
 
     yield put(authUpdateProfileAction.success());
   } catch (e) {
-    yield put(authUpdateProfileAction.failure(e));
+    yield put(authUpdateProfileAction.failure(e as RequestError));
   }
 }
 
@@ -181,7 +188,7 @@ type AuthUpdateProfileFailureGenerator = Generator<StrictEffect, void, never>;
 
 export function* authUpdateProfileFailure(action: AuthUpdateProfileActionFailure):
 AuthUpdateProfileFailureGenerator {
-  if (action.payload.code === grpcWeb.StatusCode.INVALID_ARGUMENT) {
+  if (action.payload.code === HTTP_STATUS.BAD_REQUEST) {
     yield call([toast, toast.error], action.payload.message);
   } else {
     yield call([toast, toast.error], Messages.genericAPIFailure);

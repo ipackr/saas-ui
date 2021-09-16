@@ -1,7 +1,6 @@
 # saas-ui
 
 [![CI GitHub Action status](https://github.com/percona-platform/saas-ui/workflows/CI/badge.svg?branch=main)](https://github.com/percona-platform/saas-ui/actions?query=workflow%3ACI+branch%3Amain)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpercona-platform%2Fsaas-ui.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpercona-platform%2Fsaas-ui?ref=badge_shield)
 
 SaaS UI.
 
@@ -29,3 +28,13 @@ cp .env .env.local
 Then you should update `.env.local` with your own secrets.
 
 To execute E2E tests just use `npm run cy:run`
+
+### Store rules
+
+1. By extension of the definition of the global store, reducers are also global and we want to keep
+   them in one place (contrary to some practices, where reducers are kept close to the components).
+2. All reducers should be typed.
+3. The store is merely a combination of distinct store slices, every slice has its own key.
+4. Action names should describe events that occured rather than look like setters.
+5. Every action must obey the interface { type: string; payload?: PayloadType }. The payload should be strongly typed.
+6. Action helpers are using [typesafe-actions](https://github.com/piotrwitek/typesafe-actions#using-action-creators-instances-instead-of-type-constants) library

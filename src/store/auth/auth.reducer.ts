@@ -1,6 +1,6 @@
 import { createAsyncAction, ActionType, getType } from 'typesafe-actions';
 import { AuthState, LoginPayload, SignupPayload, LogoutPayload, UpdateProfilePayload } from 'store/types';
-import * as grpcWeb from 'grpc-web';
+import { RequestError } from 'core/api/types';
 
 const DEFAULT_STATE: AuthState = {
   authenticated: false,
@@ -15,37 +15,37 @@ export const authRefreshAction = createAsyncAction(
   'LOGIN_REFRESH_REQUEST',
   'LOGIN_REFRESH_SUCCESS',
   'LOGIN_REFRESH_FAILURE',
-)<undefined, Pick<AuthState, 'email'>, grpcWeb.Error>();
+)<undefined, Pick<AuthState, 'email'>, RequestError>();
 
 export const authLoginAction = createAsyncAction(
   'LOGIN_USER_REQUEST',
   'LOGIN_USER_SUCCESS',
   'LOGIN_USER_FAILURE',
-)<LoginPayload, Pick<AuthState, 'email'>, grpcWeb.Error>();
+)<LoginPayload, Pick<AuthState, 'email'>, RequestError>();
 
 export const authSignupAction = createAsyncAction(
   'SIGNUP_USER_REQUEST',
   'SIGNUP_USER_SUCCESS',
   'SIGNUP_USER_FAILURE',
-)<SignupPayload, undefined, grpcWeb.Error>();
+)<SignupPayload, undefined, RequestError>();
 
 export const authLogoutAction = createAsyncAction(
   'LOGOUT_USER_REQUEST',
   'LOGOUT_USER_SUCCESS',
   'LOGOUT_USER_FAILURE',
-)<LogoutPayload, undefined, grpcWeb.Error>();
+)<LogoutPayload, undefined, RequestError>();
 
 export const authGetProfileAction = createAsyncAction(
   'GET_PROFILE_USER_REQUEST',
   'GET_PROFILE_USER_SUCCESS',
   'GET_PROFILE_USER_FAILURE',
-)<undefined, Pick<AuthState, 'email' | 'firstName' | 'lastName'>, grpcWeb.Error>();
+)<undefined, Pick<AuthState, 'email' | 'firstName' | 'lastName'>, RequestError>();
 
 export const authUpdateProfileAction = createAsyncAction(
   'UPDATE_PROFILE_USER_REQUEST',
   'UPDATE_PROFILE_USER_SUCCESS',
   'UPDATE_PROFILE_USER_FAILURE',
-)<UpdateProfilePayload, undefined, grpcWeb.Error>();
+)<UpdateProfilePayload, undefined, RequestError>();
 
 export type AuthActions = (
   ActionType<typeof authRefreshAction>

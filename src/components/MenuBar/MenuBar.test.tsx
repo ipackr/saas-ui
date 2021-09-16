@@ -4,7 +4,6 @@ import { act, fireEvent, render } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import * as authApi from 'core/api/auth';
 import { dataQa } from '@percona/platform-core';
-import { AuthPB } from 'core';
 import { MenuBar } from './MenuBar';
 
 jest.mock('react-redux', () => ({
@@ -12,7 +11,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.spyOn(authApi, 'signOut').mockImplementation(() => Promise.resolve({} as AuthPB.SignOutResponse));
+jest.spyOn(authApi, 'signOut').mockImplementation(() => Promise.resolve({} as Response));
 
 const mockAppState = {
   auth: {
