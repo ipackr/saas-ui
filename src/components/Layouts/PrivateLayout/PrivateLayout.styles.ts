@@ -15,5 +15,9 @@ export const getStyles = (theme: GrafanaTheme) => {
       padding: 2em;
       flex: 1;
     `,
+    mainWrapper: css`
+      display: flex;
+      flex: 1;
+    `,
   };
 };

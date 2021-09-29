@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useStyles } from '@grafana/ui';
-import { MenuBar } from 'components';
+import { MenuBar, SideMenu } from 'components';
 import { getStyles } from './PrivateLayout.styles';
 
 export const PrivateLayout: FC = ({ children }) => {
@@ -9,9 +9,12 @@ export const PrivateLayout: FC = ({ children }) => {
   return (
     <main className={styles.main}>
       <MenuBar />
-      <section className={styles.contentWrapper}>
-        {children}
-      </section>
+      <div className={styles.mainWrapper}>
+        <SideMenu />
+        <section className={styles.contentWrapper}>
+          {children}
+        </section>
+      </div>
     </main>
   );
 };
