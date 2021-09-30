@@ -8,6 +8,7 @@ export const Routes = {
   signup: '/signup',
   welcome: '/welcome',
   profile: '/profile',
+  organization: '/organization',
   editProfile: `https://${OKTA_BASE_URL}/enduser/settings`,
   resetPassword: `https://${OKTA_BASE_URL}/signin/forgot-password`,
 };

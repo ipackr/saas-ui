@@ -1,4 +1,3 @@
-export * from './Authenticated';
 export * from './IconLink';
 export * from './Layouts';
 export * from './MenuBar';

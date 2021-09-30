@@ -12,6 +12,7 @@ export const getStyles = (theme: GrafanaTheme) => {
       background-color: ${colors.dashboardBg};
     `,
     contentWrapper: css`
+      display: flex;
       padding: 2em;
       flex: 1;
     `,

@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { PrivateRoute, PublicRoute, Authenticated } from 'components';
-import { LoginPage, SignupPage, ProfilePage, UIDemo, NotFound } from 'pages';
+import { PrivateRoute, PublicRoute } from 'components';
+import { LoginPage, SignupPage, ProfilePage, UIDemo, NotFound, GettingStartedPage, ManageOrganizationPage } from 'pages';
 import { authRefreshAction } from 'store/auth';
 import { Routes } from 'core/routes';
 
@@ -17,7 +17,7 @@ export const Main: FC = () => {
     <>
         <Switch>
           <PrivateRoute exact path={Routes.root}>
-            <Authenticated />
+            <GettingStartedPage />
           </PrivateRoute>
           <PublicRoute exact path={Routes.login}>
             <LoginPage />
@@ -27,6 +27,9 @@ export const Main: FC = () => {
           </PublicRoute>
           <PrivateRoute exact path={Routes.profile}>
             <ProfilePage />
+          </PrivateRoute>
+          <PrivateRoute exact path={Routes.organization}>
+            <ManageOrganizationPage />
           </PrivateRoute>
           <PublicRoute path={Routes.ui}>
             <UIDemo />

@@ -10,8 +10,7 @@ import {
   submitButton,
   termsCheckbox,
 } from 'pages/auth/selectors';
-import { downloadPMMLink, homeIcon, profileIcon } from 'pages/main/selectors';
-import { DOWNLOAD_PMM_LINK } from 'pages/main/constants';
+import { gettingStartedContainer, homeIcon, profileIcon } from 'pages/main/selectors';
 
 Cypress.Commands.add('runLoginFlow',
   (user) => {
@@ -22,7 +21,7 @@ Cypress.Commands.add('runLoginFlow',
     submitButton().isEnabled().click();
     cy.checkPopUpMessage(user.signedInMessage);
     cy.contains(email);
-    downloadPMMLink().hasAttr('href', DOWNLOAD_PMM_LINK);
+    gettingStartedContainer().isVisible();
     profileIcon().isVisible();
     homeIcon().isVisible();
   },
