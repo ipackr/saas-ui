@@ -19,17 +19,17 @@ export const GettingStartedSection: FC<GettingStartedSectionProps> = ({
   const styles = useStyles(getStyles);
 
   return (
-    <section data-qa="getting-started-section" className={styles.section}>
-      <header data-qa="getting-started-section-header" className={styles.header}>
+    <section data-testid="getting-started-section" className={styles.section}>
+      <header data-testid="getting-started-section-header" className={styles.header}>
         {isTicked
           ? <img alt={Messages.done} src={doneIcon} />
           : <img alt={Messages.incomplete} src={incompleteIcon} />}
         <h2>{title}</h2>
       </header>
-      <div data-qa="getting-started-section-description-wrapper" className={styles.descriptionWrapper}>
-        <span data-qa="getting-started-section-description" className={styles.description}>{description}</span>
+      <div data-testid="getting-started-section-description-wrapper" className={styles.descriptionWrapper}>
+        <span data-testid="getting-started-section-description" className={styles.description}>{description}</span>
         <Link to={linkTo} className={styles.link}>
-          <Button data-qa="getting-started-section-link" icon={linkIcon} variant="link" disabled={disabled}>
+          <Button data-testid="getting-started-section-link" icon={linkIcon} variant="link" disabled={disabled}>
             {linkText}
           </Button>
         </Link>

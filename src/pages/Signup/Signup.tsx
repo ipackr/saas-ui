@@ -38,14 +38,14 @@ export const SignupPage: FC = () => {
     <PublicLayout>
       <Form onSubmit={handleSignupSubmit}>
         {({ handleSubmit, pristine, valid }: FormRenderProps) => (
-          <form data-qa="signup-form" className={styles.form} onSubmit={handleSubmit}>
+          <form data-testid="signup-form" className={styles.form} onSubmit={handleSubmit}>
             <legend className={styles.legend}>{Messages.signUp}</legend>
             <TextInputField name="email" label={Messages.emailLabel} validators={emailValidators} parse={(value) => value.trim()} required />
             <TextInputField name="firstName" label={Messages.firstName} validators={nameValidators} parse={(value) => value.trim()} required />
             <TextInputField name="lastName" label={Messages.lastName} validators={nameValidators} parse={(value) => value.trim()} required />
             <CheckboxField name="consent" label={<CheckboxLabel />} validators={[requiredTrue]} />
             <LoaderButton
-              data-qa="login-submit-button"
+              data-testid="login-submit-button"
               className={styles.signupButton}
               type="submit"
               loading={pending}
@@ -54,7 +54,7 @@ export const SignupPage: FC = () => {
               {Messages.signUp}
             </LoaderButton>
             <div className={styles.divider}>{Messages.or}</div>
-            <Link to={Routes.login} data-qa="signup-action-button" className={styles.gotoLogin}>
+            <Link to={Routes.login} data-testid="signup-action-button" className={styles.gotoLogin}>
               {Messages.signIn}
             </Link>
           </form>

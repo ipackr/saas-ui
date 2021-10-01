@@ -3,7 +3,7 @@ import { TestContainer } from 'components/TestContainer';
 import { act, fireEvent, render } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import * as authApi from 'core/api/auth';
-import { dataQa } from '@percona/platform-core';
+import { dataTestId } from '@percona/platform-core';
 import { MenuBar } from './MenuBar';
 
 jest.mock('react-redux', () => ({
@@ -32,11 +32,11 @@ describe('MenuBar', () => {
     const { container } = render(<TestContainer><MenuBar /></TestContainer>);
 
     act(() => {
-      fireEvent.click(container.querySelector(dataQa('menu-bar-profile-dropdown-toggle'))!);
+      fireEvent.click(container.querySelector(dataTestId('menu-bar-profile-dropdown-toggle'))!);
     });
 
     await act(async () => {
-      fireEvent.click(container.querySelector(dataQa('menu-bar-profile-dropdown-logout'))!);
+      fireEvent.click(container.querySelector(dataTestId('menu-bar-profile-dropdown-logout'))!);
     });
 
     expect(authApi.signOut).toBeCalledTimes(1);
@@ -50,6 +50,6 @@ describe('MenuBar', () => {
 
     const { container } = render(<TestContainer><MenuBar /></TestContainer>);
 
-    expect(container.querySelector(dataQa('menu-bar-profile-dropdown-logout'))).toEqual(null);
+    expect(container.querySelector(dataTestId('menu-bar-profile-dropdown-logout'))).toEqual(null);
   });
 });

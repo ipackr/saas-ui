@@ -23,7 +23,7 @@ const RadioButtonGroupState1: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit} initialValues={initialValues1}>
       {({ form, handleSubmit, invalid, pristine, values }: FormRenderProps) => (
-        <form data-qa="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
+        <form data-testid="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
           <Legend
             name="RadioButtonGroupField"
             src="/Buttons/RadioButtonGroups.tsx#L9-L47"
@@ -61,7 +61,7 @@ const RadioButtonGroupState2: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit} initialValues={initialValues2}>
       {({ form, handleSubmit, invalid, pristine, values }: FormRenderProps) => (
-        <form data-qa="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
+        <form data-testid="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
           <Legend
             name="RadioButtonGroupField"
             src="/Buttons/RadioButtonGroups.tsx#L49-L85"
@@ -98,7 +98,7 @@ const RadioButtonGroupState3: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ form, handleSubmit, invalid, pristine, values }: FormRenderProps) => (
-        <form data-qa="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
+        <form data-testid="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
           <Legend
             name="RadioButtonGroupField"
             src="/Buttons/RadioButtonGroups.tsx#L87-L122"
@@ -135,7 +135,7 @@ const RadioButtonGroupState4: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ form, handleSubmit, invalid, pristine, values }: FormRenderProps) => (
-        <form data-qa="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
+        <form data-testid="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
           <Legend
             name="RadioButtonGroupField"
             src="/Buttons/RadioButtonGroups.tsx#L124-L157"
@@ -171,7 +171,7 @@ const RadioButtonGroupState5: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit} initialValues={initialValues5}>
       {({ form, handleSubmit, invalid, pristine, values }: FormRenderProps) => (
-        <form data-qa="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
+        <form data-testid="radio-button-group-demo-form" className={styles.wideForm} onSubmit={handleSubmit}>
           <Legend
             name="RadioButtonGroupField"
             src="/Buttons/RadioButtonGroups.tsx#L159-L204"

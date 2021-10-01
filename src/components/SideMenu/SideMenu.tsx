@@ -10,8 +10,8 @@ export const SideMenu: FC = () => {
   const styles = useStyles(getStyles);
 
   return (
-    <nav data-qa="side-menu" className={styles.sideMenu}>
-      <section data-qa="side-menu-main-section">
+    <nav data-testid="side-menu" className={styles.sideMenu}>
+      <section data-testid="side-menu-main-section">
         <header className={styles.navSectionLabel}>{Messages.main}</header>
         <IconLink
           icon={dotCircle}

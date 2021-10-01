@@ -10,7 +10,7 @@ const DropdownState1: FC = () => {
 
   const DropdownToggle = forwardRef<HTMLButtonElement, React.HTMLAttributes<HTMLButtonElement>>(
     (props, ref) => (
-      <button type="button" ref={ref} {...props} data-qa="menu-bar-profile-dropdown-toggle" className={styles.dropdownToggle}>
+      <button type="button" ref={ref} {...props} data-testid="menu-bar-profile-dropdown-toggle" className={styles.dropdownToggle}>
         Actions
       </button>
   ));
@@ -31,10 +31,10 @@ const DropdownState1: FC = () => {
         state="State: default"
       />
       <Dropdown toggle={DropdownToggle}>
-        <span data-qa="dropdown-open-action" onClick={handleFirstAction}>
+        <span data-testid="dropdown-open-action" onClick={handleFirstAction}>
           First
         </span>
-        <span data-qa="dropdown-save-action" onClick={handleSecondAction}>
+        <span data-testid="dropdown-save-action" onClick={handleSecondAction}>
           Second
         </span>
       </Dropdown>

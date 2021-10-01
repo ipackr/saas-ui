@@ -16,7 +16,7 @@ const TextareaInputFieldState1: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextareaInputField"
             src="/FormFields/TextareaInputFields.tsx#L10-L30"
@@ -39,7 +39,7 @@ const TextareaInputFieldState2: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextareaInputField"
             src="/FormFields/TextareaInputFields.tsx#L32-L53"
@@ -59,7 +59,7 @@ const TextareaInputFieldState3: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextareaInputField"
             src="/FormFields/TextareaInputFields.tsx#L55-L73"
@@ -79,7 +79,7 @@ const TextareaInputFieldState4: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextareaInputField"
             src="/FormFields/TextareaInputFields.tsx#L75-L93"
@@ -107,7 +107,7 @@ const TextareaInputFieldState5: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="textarea-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextareaInputField"
             src="/FormFields/TextareaInputFields.tsx#L95-L128"

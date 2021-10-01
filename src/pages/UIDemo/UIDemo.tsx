@@ -45,7 +45,7 @@ export const UIDemo: FC = () => {
 
   return (
     <PrivateLayout>
-      <div data-qa="demo-page-wrapper" className={styles.page}>
+      <div data-testid="demo-page-wrapper" className={styles.page}>
         <legend className={styles.legend}>UI Component Demo</legend>
         <TabsBar>
           {/* That css property is there to silence the error in the Tab's component type */}
@@ -55,7 +55,7 @@ export const UIDemo: FC = () => {
               label={tab.label}
               active={tab.path === location.pathname}
               onChangeTab={onChangeTab(tab.key)}
-              data-qa={`demo-page-${tab.key}-tab`}
+              data-testid={`demo-page-${tab.key}-tab`}
               css=""
             />
           ))}

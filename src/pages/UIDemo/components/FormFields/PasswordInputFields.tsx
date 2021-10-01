@@ -15,7 +15,7 @@ const PasswordInputFieldState1: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="PasswordInputField"
             src="/FormFields/PasswordInputFields.tsx#L9-L29"
@@ -37,7 +37,7 @@ const PasswordInputFieldState2: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="PasswordInputField"
             src="/FormFields/PasswordInputFields.tsx#L31-L51"
@@ -57,7 +57,7 @@ const PasswordInputFieldState3: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="PasswordInputField"
             src="/FormFields/PasswordInputFields.tsx#L53-L71"
@@ -77,7 +77,7 @@ const PasswordInputFieldState4: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="password-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="PasswordInputField"
             src="/FormFields/PasswordInputFields.tsx#L73-L91"

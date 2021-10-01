@@ -8,14 +8,14 @@ import './api';
 
 // cypress-cy-select config
 const config = {
-  name: 'qa',
+  name: 'testid',
   separator: ':',
 };
 
 setup(config);
 
-// cypress-testing-library config data-qa attr
-configure({testIdAttribute: 'data-qa'});
+// cypress-testing-library config data-testid attr
+configure({testIdAttribute: 'data-testid'});
 
 // This code executes after each test in order to add attachments to the tests in mocha report
 Cypress.on('test:after:run', (test, runnable) => {

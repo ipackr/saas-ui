@@ -39,14 +39,14 @@ export const OrganizationTab: FC = () => {
   }, [error, data]);
 
   return (
-    <div data-qa="manage-organization-organization-tab">
+    <div data-testid="manage-organization-organization-tab">
       {orgId
         ? (
-            <div data-qa="view-organization">
+            <div data-testid="view-organization">
               <OrganizationView orgId={orgId!} />
             </div>
         ) : (
-          <div data-qa="create-organization">
+          <div data-testid="create-organization">
             <OrganizationCreate onCreateOrgSubmit={handleCreateOrgSubmit} loading={loading} />
           </div>
         )}

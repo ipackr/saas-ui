@@ -38,7 +38,7 @@ export const LoginPage: FC = () => {
     <PublicLayout>
       <Form onSubmit={handleLoginSubmit}>
         {({ handleSubmit, pristine, valid }: FormRenderProps) => (
-          <form data-qa="login-form" className={styles.form} onSubmit={handleSubmit}>
+          <form data-testid="login-form" className={styles.form} onSubmit={handleSubmit}>
             <legend className={styles.legend}>{Messages.signIn}</legend>
             <TextInputField name="email" label={Messages.emailLabel} validators={emailValidators} parse={(value) => value.trim()} required />
             <PasswordInputField
@@ -49,12 +49,12 @@ export const LoginPage: FC = () => {
               required
             />
             <div className={styles.resetPasswordLinkWrapper}>
-              <a href={Routes.resetPassword} className={styles.resetPasswordLink} target="_blank" data-qa="login-reset-password-button" rel="noreferrer">
+              <a href={Routes.resetPassword} className={styles.resetPasswordLink} target="_blank" data-testid="login-reset-password-button" rel="noreferrer">
                 {Messages.forgotPassword}
               </a>
             </div>
             <LoaderButton
-              data-qa="login-submit-button"
+              data-testid="login-submit-button"
               className={styles.loginButton}
               type="submit"
               loading={pending}
@@ -63,7 +63,7 @@ export const LoginPage: FC = () => {
               {Messages.signIn}
             </LoaderButton>
             <div className={styles.divider}>{Messages.or}</div>
-            <Link to={Routes.signup} data-qa="signup-action-button" className={styles.gotoSignup}>
+            <Link to={Routes.signup} data-testid="signup-action-button" className={styles.gotoSignup}>
               {Messages.signUp}
             </Link>
           </form>

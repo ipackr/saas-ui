@@ -35,7 +35,7 @@ export const ProfilePage: FC = () => {
       <main className={styles.wrapper}>
         <Form initialValues={{ email, firstName, lastName }} onSubmit={handleUpdateProfileSubmit}>
           {({ handleSubmit, valid, pristine }: FormRenderProps) => (
-            <form name="profile-form" data-qa="profile-form" className={styles.form} onSubmit={handleSubmit}>
+            <form name="profile-form" data-testid="profile-form" className={styles.form} onSubmit={handleSubmit}>
               <legend className={styles.legend}>{Messages.profile}</legend>
               <div className={styles.nameFields}>
                 <TextInputField validators={nameValidators} label={Messages.firstNameLabel} name="firstName" parse={(value) => value.trim()} />
@@ -43,12 +43,12 @@ export const ProfilePage: FC = () => {
               </div>
               <div className={styles.emailFieldWrapper}>
                 <TextInputField disabled label={Messages.emailLabel} name="email" />
-                <a href={Routes.editProfile} target="_blank" data-qa="profile-edit-button" className={styles.externalLink} rel="noreferrer">
+                <a href={Routes.editProfile} target="_blank" data-testid="profile-edit-button" className={styles.externalLink} rel="noreferrer">
                   {Messages.editProfile}
                 </a>
               </div>
               <div className={styles.buttonWrapper}>
-                <LoaderButton loading={pending} data-qa="profile-submit-button" type="submit" disabled={!valid || pending || pristine}>
+                <LoaderButton loading={pending} data-testid="profile-submit-button" type="submit" disabled={!valid || pending || pristine}>
                   {Messages.save}
                 </LoaderButton>
               </div>

@@ -21,4 +21,4 @@ declare namespace jest {
 }
 
 
-configure({ testIdAttribute: 'data-qa' });
+configure({ testIdAttribute: 'data-testid' });

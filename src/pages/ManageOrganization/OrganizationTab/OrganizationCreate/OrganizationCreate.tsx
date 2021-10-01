@@ -11,12 +11,12 @@ export const OrganizationCreate: FC<OrganizationCreateProps> = ({ onCreateOrgSub
   const styles = useStyles(getStyles);
 
   return (
-    <div data-qa="create-organization-wrapper" className={styles.container}>
+    <div data-testid="create-organization-wrapper" className={styles.container}>
       <OrganizationLogo />
       <h4 className={styles.title}>{Messages.createOrganization}</h4>
       <Form onSubmit={onCreateOrgSubmit}>
         {({ handleSubmit, pristine, valid }: FormRenderProps) => (
-          <form data-qa="create-organization-form" className={styles.form} onSubmit={handleSubmit}>
+          <form data-testid="create-organization-form" className={styles.form} onSubmit={handleSubmit}>
             <TextInputField
               className={styles.orgNameInput}
               label={Messages.organizationName}
@@ -24,7 +24,7 @@ export const OrganizationCreate: FC<OrganizationCreateProps> = ({ onCreateOrgSub
               name="organizationName"
               validators={[validators.required]} />
             <LoaderButton
-              data-qa="create-organization-submit-button"
+              data-testid="create-organization-submit-button"
               type="submit"
               loading={loading}
               disabled={!valid || loading || pristine}

@@ -10,7 +10,7 @@ export const GettingStartedPage: FC = () => {
 
   return (
     <PrivateLayout>
-      <div data-qa="getting-started-container" className={styles.container}>
+      <div data-testid="getting-started-container" className={styles.container}>
         <GettingStartedOrgSection />
         <GettingStartedPmmSection />
       </div>

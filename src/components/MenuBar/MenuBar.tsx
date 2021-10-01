@@ -34,7 +34,7 @@ export const MenuBar: FC = () => {
   }, [currentTheme, dispatch]);
 
   const DropdownToggle = forwardRef<HTMLDivElement, DropdownToggleProps>((props, ref) => (
-    <div ref={ref} {...props} data-qa="menu-bar-profile-dropdown-toggle" className={styles.menuIcon}>
+    <div ref={ref} {...props} data-testid="menu-bar-profile-dropdown-toggle" className={styles.menuIcon}>
       <Profile width={22} height={22}/>
     </div>
   ));
@@ -42,19 +42,19 @@ export const MenuBar: FC = () => {
   return (
     <ThemeContext.Consumer>
       {(theme) => (
-        <section className={styles.menuBar} data-qa="menu-bar">
-          <div className={styles.leftSide} data-qa="menu-bar-left-side">
+        <section className={styles.menuBar} data-testid="menu-bar">
+          <div className={styles.leftSide} data-testid="menu-bar-left-side">
             <nav>
               <ul>
                 <li>
-                  <Link to={Routes.root} data-qa="menu-bar-home-link" className={styles.link}>
-                    <img className={styles.perconaLogo} src={logo} alt={Messages.logoAlt} data-qa="menu-bar-percona-logo" />
+                  <Link to={Routes.root} data-testid="menu-bar-home-link" className={styles.link}>
+                    <img className={styles.perconaLogo} src={logo} alt={Messages.logoAlt} data-testid="menu-bar-percona-logo" />
                   </Link>
                 </li>
               </ul>
             </nav>
           </div>
-          <div className={styles.rightSide} data-qa="menu-bar-right-side">
+          <div className={styles.rightSide} data-testid="menu-bar-right-side">
             <nav>
               <ul>
                 <li>
@@ -66,10 +66,10 @@ export const MenuBar: FC = () => {
                 {authenticated && (
                   <li>
                     <Dropdown toggle={DropdownToggle}>
-                      <span data-qa="menu-bar-profile-dropdown-profile" onClick={goToProfilePage}>
+                      <span data-testid="menu-bar-profile-dropdown-profile" onClick={goToProfilePage}>
                         {Messages.profile}
                       </span>
-                      <span data-qa="menu-bar-profile-dropdown-logout" onClick={logout}>
+                      <span data-testid="menu-bar-profile-dropdown-logout" onClick={logout}>
                         {Messages.logout}
                       </span>
                     </Dropdown>

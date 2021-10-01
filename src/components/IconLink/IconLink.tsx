@@ -8,7 +8,7 @@ export const IconLink: FC<IconLinkProps> = ({ alt, children, icon, to }) => {
   const styles = useStyles(getStyles);
 
   return (
-    <NavLink to={to} data-qa="nav-link" activeClassName={styles.linkActive} className={styles.link}>
+    <NavLink to={to} data-testid="nav-link" activeClassName={styles.linkActive} className={styles.link}>
       <img alt={alt} src={icon} className={styles.linkIcon} />
       {children}
     </NavLink>

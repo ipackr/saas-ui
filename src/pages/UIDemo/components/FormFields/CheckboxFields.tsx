@@ -15,7 +15,7 @@ const CheckboxFieldState1: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="checkbox-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="checkbox-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="CheckboxField"
             src="/FormFields/CheckboxFields.tsx#L9-L29"
@@ -35,7 +35,7 @@ const CheckboxFieldState2: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="checkbox-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="checkbox-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="CheckboxField"
             src="/FormFields/CheckboxFields.tsx#L31-L49"
@@ -55,7 +55,7 @@ const CheckboxFieldState3: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="checkbox-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="checkbox-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="CheckboxField"
             src="/FormFields/CheckboxFields.tsx#L51-L69"

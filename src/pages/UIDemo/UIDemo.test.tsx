@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { dataQa } from '@percona/platform-core';
+import { dataTestId } from '@percona/platform-core';
 import { TestContainer } from 'components/TestContainer';
 import * as authApi from 'core/api/auth';
 import { UIDemo, tabs } from './UIDemo';
@@ -11,7 +11,7 @@ describe('UI Demo Page', () => {
   it('renders the demo page', () => {
     const { container } = render(<TestContainer><UIDemo /></TestContainer>);
 
-    expect(container.querySelector(dataQa('demo-page-wrapper'))).not.toBeNull();
+    expect(container.querySelector(dataTestId('demo-page-wrapper'))).not.toBeNull();
   });
 
   it('changes tab', () => {
@@ -19,7 +19,7 @@ describe('UI Demo Page', () => {
 
     expect(window.location.pathname).toBe(tabs.inputs.path);
 
-    const overlaysTab = container.querySelector(dataQa('demo-page-overlays-tab'));
+    const overlaysTab = container.querySelector(dataTestId('demo-page-overlays-tab'));
 
     fireEvent.click(overlaysTab!);
 

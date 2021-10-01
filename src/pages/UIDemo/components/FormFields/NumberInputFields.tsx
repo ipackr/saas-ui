@@ -15,7 +15,7 @@ const NumberInputFieldState1: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="number-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="number-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="NumberInputField"
             src="/FormFields/NumberInputFields.tsx#L9-L29"
@@ -35,7 +35,7 @@ const NumberInputFieldState2: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="number-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="number-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="NumberInputField"
             src="/FormFields/NumberInputFields.tsx#L31-L49"
@@ -55,7 +55,7 @@ const NumberInputFieldState3: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="number-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="number-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="NumberInputField"
             src="/FormFields/NumberInputFields.tsx#L51-L69"

@@ -18,9 +18,9 @@ export const NotFound: FC = () => {
 
   return (
     <div className={styles.contentWrapper}>
-      <img data-qa="404-image" className={styles.logo} alt="404" src={logo} />
+      <img data-testid="404-image" className={styles.logo} alt="404" src={logo} />
       <Link className={styles.link} to={Routes.root}>
-        <Button data-qa="404-home-button" className={styles.homeButton}>
+        <Button data-testid="404-home-button" className={styles.homeButton}>
           {Messages.homepage}
         </Button>
       </Link>

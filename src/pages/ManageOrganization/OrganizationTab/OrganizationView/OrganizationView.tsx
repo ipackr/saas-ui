@@ -26,7 +26,7 @@ export const OrganizationView: FC<OrganizationViewProps> = ({ orgId }) => {
   }, [data]);
 
   return (
-    <div data-qa="create-organization-wrapper" className={styles.container}>
+    <div data-testid="create-organization-wrapper" className={styles.container}>
       <OrganizationLogo />
       <div className={styles.orgDetails}>
         {orgName && orgCreationDate && (

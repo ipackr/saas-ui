@@ -14,7 +14,7 @@ export const LinkTo: FC<LinkToProps> = ({ src }) => {
   return (
     <LinkButton
       href={`${url}${src}`}
-      data-qa="link-to-source"
+      data-testid="link-to-source"
       className={styles.linkButton}
       target="_blank"
       variant="link"

@@ -15,7 +15,7 @@ const TextInputFieldState1: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextInputField"
             src="/FormFields/TextInputFields.tsx#L9-L29"
@@ -38,7 +38,7 @@ const TextInputFieldState2: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextInputField"
             src="/FormFields/TextInputFields.tsx#L31-L52"
@@ -58,7 +58,7 @@ const TextInputFieldState3: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextInputField"
             src="/FormFields/TextInputFields.tsx#L54-L72"
@@ -78,7 +78,7 @@ const TextInputFieldState4: FC = () => {
   return (
     <Form onSubmit={handleFormSubmit}>
       {({ handleSubmit }: FormRenderProps) => (
-        <form data-qa="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
+        <form data-testid="text-input-demo-form" className={styles.form} onSubmit={handleSubmit}>
           <Legend
             name="TextInputField"
             src="/FormFields/TextInputFields.tsx#L74-L92"
