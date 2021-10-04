@@ -1,4 +1,3 @@
-// import React, { FC, useState } from 'react';
 import React, { FC, useEffect, useState } from 'react';
 import useFetch, { CachePolicies } from 'use-http';
 import { toast } from 'react-toastify';
@@ -7,13 +6,11 @@ import { PrivateLayout } from 'components/Layouts';
 import { ReactComponent as OrganizationLogo } from 'assets/organization.svg';
 import { Messages } from './ManageOrganization.messages';
 import { getStyles } from './ManageOrganization.styles';
-// import { TABS, DEFAULT_TAB_INDEX } from './ManageOrganization.constants';
 import { DEFAULT_TAB_INDEX, GET_USER_ORGS_URL , CREATE_ORGANIZATION_URL  } from './ManageOrganization.constants';
 import { ManageOrganizationProvider } from './ManageOrganization.provider';
 import { CreateOrganizationPayload } from './OrganizationCreate/OrganizationCreate.types';
 import { OrganizationView } from './OrganizationView';
 import { OrganizationCreate } from './OrganizationCreate';
-// import { MembersTab } from './MembersTab';
 
 export const ManageOrganizationPage: FC = () => {
   const styles = useStyles(getStyles);
