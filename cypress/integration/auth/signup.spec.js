@@ -102,7 +102,10 @@ context('Sign Up', () => {
           cy.get('[name="newPassword"]').type(userPassword);
           cy.get('[name="verifyPassword"]').type(userPassword);
           cy.get('#next-button').click();
-          loginForm().isVisible();
+
+          // temp fix until data-testid changes are not deployed to DEV
+          cy.contains('Email *').isVisible();
+          // loginForm().isVisible();
         });
     });
   });
