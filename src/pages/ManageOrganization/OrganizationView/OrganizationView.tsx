@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import useFetch from 'use-http';
+import useFetch, { CachePolicies } from 'use-http';
 import { useStyles } from '@grafana/ui';
 import { toast } from 'react-toastify';
 import { ReactComponent as OrganizationLogo } from 'assets/organization.svg';
@@ -12,7 +12,8 @@ export const OrganizationView: FC<OrganizationViewProps> = ({ orgId }) => {
   const styles = useStyles(getStyles);
   const [orgName, setOrgName] = useState<string>();
   const [orgCreationDate, setOrgCreationDate] = useState<string>();
-  const { error, data = {} } = useFetch(`${GET_ORGANIZATION_URL}\\${orgId}`, [orgId]);
+  const { error, data = {} } = useFetch(`${GET_ORGANIZATION_URL}\\${orgId}`,
+  { cachePolicy: CachePolicies.NO_CACHE }, [orgId]);
 
   useEffect(() => {
     if (error) {
