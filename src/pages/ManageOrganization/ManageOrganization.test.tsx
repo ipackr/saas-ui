@@ -81,8 +81,8 @@ describe('Manage Organization', () => {
       </TestContainer>,
     );
 
-    waitFor(() => { expect((mockPost)).toBeCalledTimes(1); });
-    waitFor(() => { expect((mockPost)).toBeCalledWith(GET_USER_ORGS_URL); });
+    waitFor(() => { expect(mockPost).toBeCalledTimes(1); });
+    waitFor(() => { expect(mockPost).toBeCalledWith(GET_USER_ORGS_URL); });
   });
 
   test('shows create form if no organizations are returned by the API for the user', async () => {
@@ -92,7 +92,7 @@ describe('Manage Organization', () => {
       </TestContainer>,
     );
 
-    waitFor(() => { expect((mockPost)).toBeCalledTimes(1); });
+    waitFor(() => { expect(mockPost).toBeCalledTimes(1); });
     const createOrgContainer = await screen.findByTestId('create-organization');
 
     expect(createOrgContainer).toBeInTheDocument();
@@ -119,8 +119,8 @@ describe('Manage Organization', () => {
     waitFor(() => { expect(toastSuccess).toBeCalledTimes(1); });
   });
 
-  test('shows organization details about the first organization returned by the API for the user', async () => {
-    mockData = { orgs: [{ id: 123}] };
+  test('shows the members tab if an organization exists', async () => {
+    mockData = { orgs: [{ id: 123 }] };
 
     render(
       <TestContainer>
@@ -128,8 +128,8 @@ describe('Manage Organization', () => {
       </TestContainer>,
     );
 
-    waitFor(() => { expect((mockPost)).toBeCalledTimes(1); });
-    const viewOrgContainer = await screen.findByTestId('view-organization');
+    waitFor(() => { expect(mockPost).toBeCalledTimes(1); });
+    const viewOrgContainer = await screen.findByTestId('manage-organization-members-tab');
 
     expect(viewOrgContainer).toBeInTheDocument();
   });
