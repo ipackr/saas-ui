@@ -1,4 +1,5 @@
 import { Messages } from './InviteMember.messages';
+import { MemberRole } from './InviteMember.types';
 
 export const GET_ORGANIZATION_URL = 'v1/orgs';
 
@@ -6,11 +7,11 @@ export const ORGANIZATION_MEMBER_URL_CHUNK = 'member';
 
 export const ROLES = [
   {
-    value: 'admin',
+    value: MemberRole.admin,
     label: Messages.admin,
   },
   {
-    value: 'technical',
+    value: MemberRole.technical,
     label: Messages.technicalUser,
   },
 ];
