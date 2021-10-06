@@ -7,9 +7,14 @@ import { toast } from 'react-toastify';
 import { getStyles } from './InviteMember.styles';
 import { Messages } from './InviteMember.messages';
 import { GET_ORGANIZATION_URL, ROLES, ORGANIZATION_MEMBER_URL_CHUNK } from './InviteMember.constants';
-import { InviteMemberFormFields, InviteMemberProps } from './InviteMember.types';
+import { MemberRole, InviteMemberFormFields, InviteMemberProps } from './InviteMember.types';
 
 const { email: emailValidator, required } = validators;
+
+const initialValues = {
+  email: '',
+  role: ROLES.find((role) => role.value === MemberRole.technical),
+};
 
 export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
   const styles = useStyles(getStyles);
@@ -57,7 +62,7 @@ export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
         isVisible={isModalVisible}
         onClose={handleModalClose}
       >
-        <Form onSubmit={handleInviteMemberSubmit}>
+        <Form onSubmit={handleInviteMemberSubmit} initialValues={initialValues}>
           {({ handleSubmit, valid, pristine }: FormRenderProps) => (
             <form onSubmit={handleSubmit} className={styles.inviteForm} data-testid="invite-member-form">
               <TextInputField name="email" label={Messages.email} validators={[emailValidator, required]} data-testid/>
