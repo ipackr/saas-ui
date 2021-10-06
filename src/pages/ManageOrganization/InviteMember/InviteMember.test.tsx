@@ -31,7 +31,7 @@ jest.mock('use-http', () => {
   };
 });
 
-const testOrgId = 123;
+const testOrgId = '123';
 
 describe('Invite Members', () => {
   test('renders the invite button', async () => {

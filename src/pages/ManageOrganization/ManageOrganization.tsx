@@ -14,7 +14,7 @@ import { InviteMember } from './InviteMember';
 
 export const ManageOrganizationPage: FC = () => {
   const styles = useStyles(getStyles);
-  const [orgId, setOrgId] = useState<number>();
+  const [orgId, setOrgId] = useState<string>();
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
   const { response, error, loading, post, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
 

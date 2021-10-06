@@ -11,5 +11,5 @@ export interface InviteMemberFormFields {
 }
 
 export interface InviteMemberProps {
-  orgId: number;
+  orgId: string;
 }
