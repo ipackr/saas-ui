@@ -14,6 +14,7 @@ const toastSuccess = jest.spyOn(toast, 'success');
 let mockError: string | null = null;
 
 let mockData = {};
+const testId = '123';
 
 jest.mock('use-http', () => {
   const originalModule = jest.requireActual('@percona/platform-core');
@@ -101,7 +102,7 @@ describe('Manage Organization', () => {
   test('shows a success message after an organization is successfully created', async () => {
     const testName = 'Test';
 
-    mockPost.mockResolvedValue({ org: { id: 123 } });
+    mockPost.mockResolvedValue({ org: { id: testId } });
 
     render(
       <TestContainer>
@@ -120,7 +121,7 @@ describe('Manage Organization', () => {
   });
 
   test('shows the members tab if an organization exists', async () => {
-    mockData = { orgs: [{ id: 123 }] };
+    mockData = { orgs: [{ id: testId }] };
 
     render(
       <TestContainer>
