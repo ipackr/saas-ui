@@ -101,6 +101,31 @@ describe('Invite Members', () => {
     const submitButton = await screen.findByTestId('invite-member-submit-button');
 
     expect(submitButton).toBeDisabled();
+
+    const emailInput = await screen.findByTestId('email-text-input');
+
+    fireEvent.change(emailInput, { target: { value: 'invalid@email' } });
+
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('the save button is enabled if the form is valid', async () => {
+    render(
+      <TestContainer>
+        <InviteMember orgId={testOrgId} />
+      </TestContainer>,
+    );
+
+    const openModal = await screen.findByTestId('invite-member-button');
+
+    fireEvent.click(openModal);
+
+    const submitButton = await screen.findByTestId('invite-member-submit-button');
+    const emailInput = await screen.findByTestId('email-text-input');
+
+    fireEvent.change(emailInput, { target: { value: 'invalid@email.com' } });
+
+    expect(submitButton).toBeEnabled();
   });
 
   test('shows an error if an API call fails', async () => {
