@@ -3,7 +3,7 @@ import { MemberRole } from './InviteMember.types';
 
 export const GET_ORGANIZATION_URL = 'v1/orgs';
 
-export const ORGANIZATION_MEMBER_URL_CHUNK = 'member';
+export const ORGANIZATION_MEMBER_URL_CHUNK = 'members';
 
 export const ROLES = [
   {
