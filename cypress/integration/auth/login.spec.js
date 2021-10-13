@@ -21,7 +21,7 @@ context('Login', () => {
     cy.visit(pageDetailsMap[Pages.Login].url);
   });
 
-  it('SAAS-T82 - should be able to see the login form', () => {
+  it('SAAS-T82 - should be able to see the login form ', () => {
     loginForm().isVisible();
     emailFieldLabel().contains('Email *');
     emailField().isVisible();
