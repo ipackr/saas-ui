@@ -10,7 +10,14 @@ accepted = ["MIT", "MSC", "BSD", "Apache-2.0"]
 
 [dependencies]
 # This will allow users to flag some dependencies so that Licensebat will not check for their license.
-ignored=["@hapi/*", "@istanbuljs/load-nyc-config"]
+ignored=[
+  "@hapi/address",
+  "@hapi/bourne",
+  "@hapi/hoek",
+  "@hapi/joi",
+  "@hapi/topo",
+  "@istanbuljs/load-nyc-config"
+]
 
 [behavior]
 # False by default, if true, it will only run the checks when one of the dependency files or the .licrc file has been modified.
