@@ -65,7 +65,7 @@ export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
         <Form onSubmit={handleInviteMemberSubmit} initialValues={initialValues}>
           {({ handleSubmit, valid, pristine }: FormRenderProps) => (
             <form onSubmit={handleSubmit} className={styles.inviteForm} data-testid="invite-member-form">
-              <TextInputField name="email" label={Messages.email} validators={[emailValidator, required]} data-testid/>
+              <TextInputField name="email" label={Messages.email} validators={[emailValidator, required]} />
               <Field name="role">
                 {({ input }) => (
                   <>
