@@ -18,14 +18,14 @@ const initialValues = {
 
 export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
   const styles = useStyles(getStyles);
-  const { response, error, post, loading } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
+  const { response, error, post, loading, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     if (error) {
-      toast.error(Messages.fetchError);
+      toast.error(data?.message ? data.message : Messages.fetchError);
     }
-  }, [error]);
+  }, [data, error]);
 
   const handleModalClose = () => {
     setIsModalVisible((currentValue) => !currentValue);
