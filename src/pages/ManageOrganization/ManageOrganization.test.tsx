@@ -6,7 +6,17 @@ import { TestContainer } from 'components/TestContainer';
 import { ManageOrganizationPage } from '.';
 import { GET_USER_ORGS_URL } from './ManageOrganization.constants';
 
-const mockPost = jest.fn().mockResolvedValue({ orgs: [{ id: 1337 }] });
+const mockPost = jest.fn().mockResolvedValue({
+  orgs: [{ id: '1337' }],
+  members: [{
+    'member_id': 'test-uid',
+    'username': 'test@test.com',
+    'first_name': 'Test',
+    'last_name': 'User',
+    'role': 'Admin',
+    'status': 'ACTIVE',
+  }],
+});
 
 const toastError = jest.spyOn(toast, 'error');
 const toastSuccess = jest.spyOn(toast, 'success');
@@ -122,6 +132,16 @@ describe('Manage Organization', () => {
 
   test('shows the members tab if an organization exists', async () => {
     mockData = { orgs: [{ id: testId }] };
+    mockPost.mockResolvedValue({
+      members: [{
+        'member_id': 'test-uid',
+        'username': 'test@test.com',
+        'first_name': 'Test',
+        'last_name': 'User',
+        'role': 'Admin',
+        'status': 'ACTIVE',
+      }],
+    });
 
     render(
       <TestContainer>

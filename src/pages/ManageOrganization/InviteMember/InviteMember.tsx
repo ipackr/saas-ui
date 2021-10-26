@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 import { getStyles } from './InviteMember.styles';
 import { Messages } from './InviteMember.messages';
 import { GET_ORGANIZATION_URL, ROLES, ORGANIZATION_MEMBER_URL_CHUNK } from './InviteMember.constants';
-import { MemberRole, InviteMemberFormFields, InviteMemberProps } from './InviteMember.types';
+import { MemberRole } from '../ManageOrganization.types';
+import { InviteMemberFormFields, InviteMemberProps } from './InviteMember.types';
 
 const { email: emailValidator, required } = validators;
 

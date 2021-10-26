@@ -1,9 +1,5 @@
 import { SelectableValue } from '@grafana/data';
-
-export enum MemberRole {
-  admin = 'Admin',
-  technical = 'Technical',
-}
+import { MemberRole } from '../ManageOrganization.types';
 
 export interface InviteMemberFormFields {
   email: string;

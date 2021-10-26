@@ -1,5 +1,5 @@
 import { Messages } from './InviteMember.messages';
-import { MemberRole } from './InviteMember.types';
+import { MemberRole } from '../ManageOrganization.types';
 
 export const GET_ORGANIZATION_URL = 'v1/orgs';
 
