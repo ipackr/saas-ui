@@ -9,7 +9,7 @@ export const emailValidation = () => cy.get('testid:email-field-error-message');
 export const passwordFieldLabel = () => cy.get('testid:password-field-label');
 export const passwordField = () => cy.get('testid:password-password-input');
 export const passwordValidation = () => cy.get('testid:password-field-error-message');
-export const submitButton = () => cy.get('testid:login-submit-button');
+export const submitButton = () => cy.get('testid:login-button');
 export const signUpLink = () => cy.get('testid:signup-action-button');
 export const termsCheckbox = () => cy.get('testid:consent-checkbox-input');
 export const termsText = () => cy.get('testid:consent-field-label');

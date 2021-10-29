@@ -1,10 +1,10 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import { Routes } from 'core/routes';
-import { MAX_NAME_LENGTH } from 'core/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, FormRenderProps } from 'react-final-form';
 import { useStyles } from '@grafana/ui';
 import { LoaderButton, TextInputField, validators } from '@percona/platform-core';
+import { Routes } from 'core/routes';
+import { MAX_NAME_LENGTH } from 'core/constants';
 import { authGetProfileAction, authUpdateProfileAction, getAuth } from 'store/auth';
 import { UpdateProfilePayload } from 'store/types';
 import { PrivateLayout } from 'components/Layouts';
@@ -38,8 +38,20 @@ export const ProfilePage: FC = () => {
             <form name="profile-form" data-testid="profile-form" className={styles.form} onSubmit={handleSubmit}>
               <legend className={styles.legend}>{Messages.profile}</legend>
               <div className={styles.nameFields}>
-                <TextInputField validators={nameValidators} label={Messages.firstNameLabel} name="firstName" parse={(value) => value.trim()} />
-                <TextInputField validators={nameValidators} label={Messages.lastNameLabel} name="lastName" parse={(value) => value.trim()} />
+                <TextInputField
+                  disabled={pending}
+                  label={Messages.firstNameLabel}
+                  name="firstName"
+                  parse={(value) => value.trim()}
+                  validators={nameValidators}
+                />
+                <TextInputField
+                  disabled={pending}
+                  label={Messages.lastNameLabel}
+                  name="lastName"
+                  parse={(value) => value.trim()}
+                  validators={nameValidators}
+                />
               </div>
               <div className={styles.emailFieldWrapper}>
                 <TextInputField disabled label={Messages.emailLabel} name="email" />
@@ -48,8 +60,8 @@ export const ProfilePage: FC = () => {
                 </a>
               </div>
               <div className={styles.buttonWrapper}>
-                <LoaderButton loading={pending} data-testid="profile-submit-button" type="submit" disabled={!valid || pending || pristine}>
-                  {Messages.save}
+                <LoaderButton data-qa="profile-submit-button" type="submit" disabled={!valid || pending || pristine}>
+                  {pending ? Messages.loading : Messages.save}
                 </LoaderButton>
               </div>
             </form>

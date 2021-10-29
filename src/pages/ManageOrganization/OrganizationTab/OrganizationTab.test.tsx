@@ -2,9 +2,9 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ENDPOINTS } from 'core/api';
 import { TestContainer } from 'components/TestContainer';
 import { OrganizationTab } from '.';
-import { GET_USER_ORGS_URL } from './OrganizationTab.constants';
 
 const mockPost = jest.fn().mockResolvedValue({ orgs: [{ id: 1337 }] });
 
@@ -57,7 +57,7 @@ describe('Organization Create', () => {
     );
 
     waitFor(() => { expect((mockPost)).toBeCalledTimes(1); });
-    waitFor(() => { expect((mockPost)).toBeCalledWith(GET_USER_ORGS_URL); });
+    waitFor(() => { expect((mockPost)).toBeCalledWith(ENDPOINTS.Org.getUserOganizations); });
   });
 
   test('shows create form if no organizations are returned by the API for the user', async () => {

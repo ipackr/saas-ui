@@ -1,6 +1,4 @@
-import {
-  authRefreshAction, authLoginAction, authSignupAction, authLogoutAction,
-} from 'store/auth/auth.reducer';
+import { authLoginAction, authLogoutAction } from 'store/auth/auth.reducer';
 import {
   all, call, takeEvery, select,
 } from 'redux-saga/effects';
@@ -23,12 +21,8 @@ describe('Persistence Sagas', () => {
   test('persistenceSagas', () => {
     const genObj = persistenceSagas();
     const expected = all([
-      takeEvery(authRefreshAction.success, save),
-      takeEvery(authRefreshAction.failure, save),
       takeEvery(authLoginAction.success, save),
       takeEvery(authLoginAction.failure, save),
-      takeEvery(authSignupAction.success, save),
-      takeEvery(authSignupAction.failure, save),
       takeEvery(authLogoutAction.success, save),
       takeEvery(authLogoutAction.failure, save),
     ]);
@@ -41,6 +35,6 @@ describe('Persistence Sagas', () => {
 
     expect(genObj.next().value).toEqual(select());
 
-    expect(genObj.next(TEST_STATE).value).toEqual(call(saveState as any, TEST_STATE));
+    expect(genObj.next(TEST_STATE as any).value).toEqual(call(saveState as any, TEST_STATE));
   });
 });

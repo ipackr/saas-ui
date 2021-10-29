@@ -93,7 +93,7 @@ jobs:
       - name: Enable experimental Docker features for --squash flag
         run: sudo .github/workflows/enable-docker-experimental.sh
 
-      - name: Login in Docker registry
+      - name: Login to Docker registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u $GITHUB_ACTOR docker.pkg.github.com --password-stdin
 
       - name: Extract Docker image tag

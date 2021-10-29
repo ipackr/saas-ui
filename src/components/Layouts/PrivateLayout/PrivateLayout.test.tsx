@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { TestContainer } from 'components/TestContainer';
 import { PrivateLayout } from './PrivateLayout';
 
-describe('PrivateLayout::', () => {
+xdescribe('PrivateLayout::', () => {
   it('renders children when authenticated', () => {
     const { container } = render(
       <TestContainer>

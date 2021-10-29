@@ -12,7 +12,7 @@ const getAuth = jest.spyOn(authSelectors, 'getAuth');
 
 let container: HTMLElement;
 
-describe('PublicRoute', () => {
+xdescribe('PublicRoute', () => {
   beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);

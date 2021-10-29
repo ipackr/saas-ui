@@ -1,18 +1,22 @@
 import React, { FC, useEffect, useState } from 'react';
-import useFetch, { CachePolicies } from 'use-http';
+import useFetch from 'use-http';
 import { toast } from 'react-toastify';
+import { getUseHttpConfig } from 'core/api/api.service';
+import { ENDPOINTS } from 'core/api';
 import { OrganizationCreate } from './OrganizationCreate';
 import { OrganizationView } from './OrganizationView';
-import { GET_USER_ORGS_URL, CREATE_ORGANIZATION_URL } from './OrganizationTab.constants';
 import { Messages } from './OrganizationTab.messages';
 import { CreateOrganizationPayload } from './OrganizationCreate/OrganizationCreate.types';
 
+const { Org } = ENDPOINTS;
+
 export const OrganizationTab: FC = () => {
   const [orgId, setOrgId] = useState();
-  const { response, error, loading, post, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
+  const fetchConfig = getUseHttpConfig();
+  const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
 
   const handleCreateOrgSubmit = async ({ organizationName }: CreateOrganizationPayload) => {
-    const { org } = await post(CREATE_ORGANIZATION_URL, { name: organizationName });
+    const { org } = await post(Org.createOrganization, { name: organizationName });
 
     if (org?.id && response.ok) {
       toast.success(Messages.orgCreateSuccess);
@@ -22,7 +26,7 @@ export const OrganizationTab: FC = () => {
 
   useEffect(() => {
     const getOrgs = async () => {
-      await post(GET_USER_ORGS_URL);
+      await post(Org.getUserOganizations);
     };
 
     getOrgs();

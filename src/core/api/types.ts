@@ -6,10 +6,6 @@ export interface RequestError {
   code: number;
   message: string;
 }
-export interface RefreshSessionResponse {
-  email: string;
-  expireTime?: string;
-}
 
 export interface SignInRequest {
   email: string;

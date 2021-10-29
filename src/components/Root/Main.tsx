@@ -1,43 +1,30 @@
-import React, { FC, useEffect } from 'react';
-import { Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { PrivateRoute, PublicRoute } from 'components';
-import { LoginPage, SignupPage, ProfilePage, UIDemo, NotFound, GettingStartedPage, ManageOrganizationPage } from 'pages';
-import { authRefreshAction } from 'store/auth';
+import React, { FC } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { LoginCallback, SecureRoute } from '@okta/okta-react';
+import { PublicRoute } from 'components';
+import { LoginPage, ProfilePage, UIDemo, NotFound, GettingStartedPage, ManageOrganizationPage } from 'pages';
 import { Routes } from 'core/routes';
 
-export const Main: FC = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(authRefreshAction.request());
-  }, [dispatch]);
-
-  return (
-    <>
-        <Switch>
-          <PrivateRoute exact path={Routes.root}>
-            <GettingStartedPage />
-          </PrivateRoute>
-          <PublicRoute exact path={Routes.login}>
-            <LoginPage />
-          </PublicRoute>
-          <PublicRoute exact path={Routes.signup}>
-            <SignupPage />
-          </PublicRoute>
-          <PrivateRoute exact path={Routes.profile}>
-            <ProfilePage />
-          </PrivateRoute>
-          <PrivateRoute exact path={Routes.organization}>
-            <ManageOrganizationPage />
-          </PrivateRoute>
-          <PublicRoute path={Routes.ui}>
-            <UIDemo />
-          </PublicRoute>
-          <PrivateRoute>
-            <NotFound />
-          </PrivateRoute>
-        </Switch>
-    </>
-  );
-};
+export const Main: FC = () => (
+  <Switch>
+    <Route path={Routes.loginCallback} component={LoginCallback} />
+    <SecureRoute exact path={Routes.root}>
+      <GettingStartedPage />
+    </SecureRoute>
+    <PublicRoute exact path={Routes.login}>
+      <LoginPage />
+    </PublicRoute>
+    <SecureRoute exact path={Routes.profile}>
+      <ProfilePage />
+    </SecureRoute>
+    <SecureRoute exact path={Routes.organization}>
+      <ManageOrganizationPage />
+    </SecureRoute>
+    <PublicRoute path={Routes.ui}>
+      <UIDemo />
+    </PublicRoute>
+    <SecureRoute>
+      <NotFound />
+    </SecureRoute>
+  </Switch>
+);

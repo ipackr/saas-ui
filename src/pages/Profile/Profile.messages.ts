@@ -1,8 +1,9 @@
 export const Messages = {
-  profile: 'Profile Settings',
+  editProfile: 'Edit profile',
+  emailLabel: 'Email',
   firstNameLabel: 'First name',
   lastNameLabel: 'Last name',
-  emailLabel: 'Email',
-  editProfile: 'Edit profile',
+  loading: 'Loading the profile...',
+  profile: 'Profile Settings',
   save: 'Save',
 };

@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ThemeContext, useStyles } from '@grafana/ui';
 import { Dropdown, Icons } from '@percona/platform-core';
+import { useOktaAuth } from '@okta/okta-react';
 import { Routes } from 'core/routes';
-import { authLogoutAction, getAuth } from 'store/auth';
 import { getCurrentTheme, themeChangeRequestAction } from 'store/theme';
 import { history } from 'core/history';
 import { ReactComponent as Profile } from 'assets/profile.svg';
@@ -18,7 +18,7 @@ const { ThemeDark, ThemeLight } = Icons;
 export const MenuBar: FC = () => {
   const styles = useStyles(getStyles);
   const dispatch = useDispatch();
-  const { authenticated, email } = useSelector(getAuth);
+  const { authState, oktaAuth } = useOktaAuth();
   const currentTheme = useSelector(getCurrentTheme);
 
   const goToProfilePage = () => {
@@ -26,8 +26,9 @@ export const MenuBar: FC = () => {
   };
 
   const logout = useCallback(async () => {
-    dispatch(authLogoutAction.request({ email: email! }));
-  }, [email, dispatch]);
+
+    oktaAuth.signOut({ revokeAccessToken: true, revokeRefreshToken: true });
+  }, [oktaAuth]);
 
   const changeTheme = useCallback(() => {
     dispatch(themeChangeRequestAction(currentTheme));
@@ -63,7 +64,7 @@ export const MenuBar: FC = () => {
                     {theme.isDark && <ThemeLight width={22} height={22} />}
                   </div>
                 </li>
-                {authenticated && (
+                {authState?.isAuthenticated && (
                   <li>
                     <Dropdown toggle={DropdownToggle}>
                       <span data-testid="menu-bar-profile-dropdown-profile" onClick={goToProfilePage}>

@@ -1,19 +1,22 @@
 import React, { FC, useEffect, useState } from 'react';
-import useFetch, { CachePolicies } from 'use-http';
+import useFetch from 'use-http';
 import { toast } from 'react-toastify';
 import { Routes } from 'core/routes';
+import { ENDPOINTS } from 'core/api';
+import { getUseHttpConfig } from 'core/api/api.service';
 import { Messages } from './GettingStartedOrgSection.messages';
 import { GettingStartedSection } from '../GettingStartedSection';
-import { LIST_ORGANIZATION_URL } from './GettingStartedOrgSection.constants';
+
+const { Org } = ENDPOINTS;
 
 export const GettingStartedOrgSection: FC = () => {
   const [hasOrgIds, setHasOrgIds] = useState(false);
 
-  const { error, data = {} } = useFetch(LIST_ORGANIZATION_URL, { cachePolicy: CachePolicies.NO_CACHE, method: 'POST' }, []);
+  const { error, data = {} } = useFetch(...getUseHttpConfig(Org.getUserOganizations, { method: 'POST' }));
 
   useEffect(() => {
     if (error) {
-      toast.error(Messages.fetchError);
+      toast.error(Messages.orgFetchError);
     }
   }, [error]);
 

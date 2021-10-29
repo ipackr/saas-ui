@@ -1,33 +1,102 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-// import { PLATFORM_BASE_URL } from '../constants';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { CachePolicies, UseFetchArgs } from 'use-http';
+import { oktaAuth } from 'core';
 
-// const HOST = `https://${PLATFORM_BASE_URL}`;
-
-export const Api: AxiosInstance = axios.create({
-  // baseURL: process.env.NODE_ENV === 'production' ? undefined : HOST,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  },
-});
-
-export function get<T = any, R = AxiosResponse<T>>(path: string, config?: AxiosRequestConfig) {
-  return Api.get<T, R>(path, config)
-    .then((res) => (res as unknown as AxiosResponse<T>).data);
+const headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
 };
 
-export function post<T = any, R = AxiosResponse<T>>(path: string, data?: any, config?: AxiosRequestConfig) {
-  return Api.post<T, R>(path, data, config)
-    .then((res) => (res as unknown as AxiosResponse<T>).data);
-}
+const axiosConfig = {
+  withCredentials: true,
+  headers,
+};
 
-export function put<T = any, R = AxiosResponse<T>>(path: string, data?: any, config?: AxiosRequestConfig) {
-  return Api.put<T, R>(path, data, config)
-    .then((res) => (res as unknown as AxiosResponse<T>).data);
-}
+const getConfig = (config?: AxiosRequestConfig) => {
+  const authState = oktaAuth?.authStateManager.getAuthState();
 
-export function del<T = any, R = AxiosResponse<T>>(path: string, config?: AxiosRequestConfig) {
-  return Api.put<T, R>(path, config)
-    .then((res) => (res as unknown as AxiosResponse<T>).data);
-}
+  const accessToken = authState?.accessToken?.accessToken;
+
+  if (!accessToken) {
+    return { ...axiosConfig, ...config };
+  }
+
+  return {
+    ...axiosConfig,
+    headers: { ...headers, Authorization: `Bearer ${accessToken}` },
+  };
+};
+
+export function getUseHttpConfig(...args: UseFetchArgs): UseFetchArgs {
+
+  const config: UseFetchArgs = [];
+  const firstArg = args[0];
+  const secondArg = args[1];
+  const thirdArg = args[2];
+
+  // NOTE: this dance with types is only dictated by a very unstraightforward interface of UseFetchArgs
+  if (typeof firstArg === 'string') {
+    config.push(firstArg);
+  }
+
+  if ((secondArg !== null && typeof secondArg === 'object') || secondArg === undefined) {
+    config.push({
+      cachePolicy: CachePolicies.NO_CACHE,
+      interceptors: {
+        request: async ({ options }: {
+          // eslint-disable-next-line no-undef
+          options: RequestInit;
+          url?: string;
+          path?: string;
+          route?: string;
+        }) => {
+          const authState = oktaAuth?.authStateManager.getAuthState();
+          const accessToken = authState?.accessToken?.accessToken;
+
+          const opts = {
+            ...options,
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          };
+
+          return opts;
+        },
+      },
+      ...secondArg,
+    });
+  }
+
+  if (Array.isArray(thirdArg)) {
+    config.push(thirdArg);
+  }
+
+  return config;
+};
+
+export const Api = {
+  axios,
+
+  get: function get<T = any, R = AxiosResponse<T>>(
+    path: string, config?: AxiosRequestConfig,
+  ) {
+    return axios.get<T, R extends void ? AxiosResponse<T> : AxiosResponse<T>>(path, getConfig(config));
+  },
+
+  post: function post<T = any, R = AxiosResponse<T>>(
+    path: string, data?: any, config?: AxiosRequestConfig,
+  ) {
+    return axios.post<T, R extends void ? AxiosResponse<T> : AxiosResponse<T>>(path, data, getConfig(config));
+  },
+
+  put: function put<T = any, R = AxiosResponse<T>>(
+    path: string, data?: any, config?: AxiosRequestConfig,
+  ) {
+    return axios.put<T, R extends void ? AxiosResponse<T> : AxiosResponse<T>>(path, data, getConfig(config));
+  },
+
+  del: function del<T = any, R = AxiosResponse<T>>(path: string, config?: AxiosRequestConfig) {
+    return axios.put<T, R extends void ? AxiosResponse<T> : AxiosResponse<T>>(path, getConfig(config));
+  },
+};

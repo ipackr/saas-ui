@@ -1,8 +1,9 @@
 export const Messages = {
   signUp: 'Sign up',
-  signIn: 'Login',
+  signIn: 'Login with Percona Account',
   or: 'or',
   passwordLabel: 'Password',
   emailLabel: 'Email',
-  forgotPassword: 'Forgot password',
+  forgotPassword: 'Reset password',
+  help: 'Help',
 };

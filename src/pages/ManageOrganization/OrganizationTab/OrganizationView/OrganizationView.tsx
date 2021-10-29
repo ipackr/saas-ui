@@ -2,17 +2,21 @@ import React, { FC, useEffect, useState } from 'react';
 import useFetch from 'use-http';
 import { useStyles } from '@grafana/ui';
 import { toast } from 'react-toastify';
+import { ENDPOINTS } from 'core/api';
+import { getUseHttpConfig } from 'core/api/api.service';
 import { ReactComponent as OrganizationLogo } from 'assets/organization.svg';
 import { getStyles } from './OrganizationView.styles';
 import { Messages } from './OrganizationView.messages';
-import { GET_ORGANIZATION_URL } from './OrganizationView.constants';
 import { OrganizationViewProps } from './OrganizationView.types';
+
+const { Org } = ENDPOINTS;
 
 export const OrganizationView: FC<OrganizationViewProps> = ({ orgId }) => {
   const styles = useStyles(getStyles);
   const [orgName, setOrgName] = useState<string>();
   const [orgCreationDate, setOrgCreationDate] = useState<string>();
-  const { error, data = {} } = useFetch(`${GET_ORGANIZATION_URL}\\${orgId}`, [orgId]);
+  const fetchConfig = getUseHttpConfig(`${Org.getOrganization}\\${orgId}`, undefined, [orgId]);
+  const { error, data = {} } = useFetch(...fetchConfig);
 
   useEffect(() => {
     if (error) {

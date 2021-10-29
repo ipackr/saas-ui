@@ -13,8 +13,7 @@
   "videoCompression": 25,
   "videoUploadOnPasses": false,
   "failOnStatusCode": false,
-  "ignoreTestFiles": ["*utils.js", "locators.js", "constants.js"],
-  "testFiles": ["**/*spec.js"],
+  "ignoreTestFiles": ["*utils.js", "locators.js", "constants.js", "**/*spec.js", "helper.js"],
   "baseUrl": "https://platform.localhost",
   "retries": {
     "runMode": 1,

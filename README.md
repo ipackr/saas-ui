@@ -38,3 +38,16 @@ To execute E2E tests just use `npm run cy:run`
 4. Action names should describe events that occured rather than look like setters.
 5. Every action must obey the interface { type: string; payload?: PayloadType }. The payload should be strongly typed.
 6. Action helpers are using [typesafe-actions](https://github.com/piotrwitek/typesafe-actions#using-action-creators-instances-instead-of-type-constants) library
+
+### Integration with Okta
+
+We are using several dependencies to integrate with by Okta, namely:
+
+- [Okta Auth JavaScript SDK](https://github.com/okta/okta-auth-js)
+- [Okta Sign-In Widget](https://github.com/okta/okta-signin-widget)
+- [Okta React SDK](https://github.com/okta/okta-react)
+
+From the authorization standpoint, we leverage `OAuth 2.0 Authorization Code Flow` with [PKCE](https://tools.ietf.org/html/rfc7636).
+The `UseOktaAuth` react hook provides access to the auth API, while components like `SecureRoute` and `LoginCallback` help automate the authz flow.
+
+In order to authorize the web client, we set up a dedicated authorization server with Okta, which handles the process of issuing, verifying, reissuing and revoking the access tokens. A separate Okta application called 'Portal FE' is configured to handle sign-in and sign-out redirect URIs.
