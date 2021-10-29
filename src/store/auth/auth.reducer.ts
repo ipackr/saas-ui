@@ -9,6 +9,11 @@ const DEFAULT_STATE: AuthState = {
   lastName: undefined,
   pending: false,
   authCheckCompleted: false,
+  org: {
+    id: '',
+    name: '',
+    role: '',
+  },
 };
 
 export const authLoginAction = createAsyncAction(
@@ -27,7 +32,7 @@ export const authGetProfileAction = createAsyncAction(
   'GET_PROFILE_USER_REQUEST',
   'GET_PROFILE_USER_SUCCESS',
   'GET_PROFILE_USER_FAILURE',
-)<undefined, Pick<AuthState, 'email' | 'firstName' | 'lastName'>, RequestError>();
+)<undefined, Pick<AuthState, 'email' | 'firstName' | 'lastName' | 'org'>, RequestError>();
 
 export const authUpdateProfileAction = createAsyncAction(
   'UPDATE_PROFILE_USER_REQUEST',
@@ -95,6 +100,11 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
         email: action.payload.email,
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
+        org: {
+          id: action.payload.org.id,
+          name: action.payload.org.name,
+          role: action.payload.org.role,
+        },
         pending: false,
         authCheckCompleted: true,
       };

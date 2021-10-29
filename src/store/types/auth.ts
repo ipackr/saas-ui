@@ -5,6 +5,11 @@ export interface AuthState {
   firstName?: string;
   lastName?: string;
   pending: boolean;
+  org: {
+    id: string;
+    name: string;
+    role: string;
+  },
 }
 
 export interface LoginPayload {

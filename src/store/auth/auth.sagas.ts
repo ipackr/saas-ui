@@ -6,12 +6,15 @@ import { signIn, getProfile, updateProfile } from 'core/api/auth';
 import {
   GetProfileResponse,
   RequestError,
+  SearchOrganizationMembersResponse,
+  SearchOrganizationsResponse,
   SignInResponse,
 } from 'core/api/types';
 import { Messages } from 'core/api/messages';
 import { toast } from 'react-toastify';
 import { Routes, history } from 'core';
 import { HTTP_STATUS } from 'core/api';
+import { searchOrgs, searchOrgMembers } from 'core/api/orgs';
 import {
   authLoginAction,
   authLogoutAction,
@@ -83,16 +86,29 @@ export function* authLogoutSuccess(): AuthLogoutSuccessGenerator {
 
 // Get Profile
 
-type AuthGetProfileRequestGenerator = Generator<StrictEffect, void, AxiosResponse<GetProfileResponse>>;
+type UserOrgsRequest = [AxiosResponse<GetProfileResponse>, AxiosResponse<SearchOrganizationsResponse>];
+type UsersRequest = AxiosResponse<SearchOrganizationMembersResponse>;
 
-export function* authGetProfileRequest(): AuthGetProfileRequestGenerator {
+export function* authGetProfileRequest() {
   try {
-    const { data } = yield call(getProfile);
+    const [ { data: profileData }, { data: orgData }]: UserOrgsRequest =
+      yield all([call(getProfile), call(searchOrgs)]);
+    const { email, first_name, last_name } = profileData;
+    // We are assuming one org per user, as for now
+    const [ { id: orgId = '', name: orgName} ] = orgData.orgs || [];
+
+    const { data: memberData }: UsersRequest = yield call(searchOrgMembers, orgId);
+    const ownUser = (memberData.members || []).find((member) => member.username === email);
 
     yield put(authGetProfileAction.success({
-      email: data.email,
-      firstName: data.first_name,
-      lastName: data.last_name,
+      email,
+      firstName: first_name,
+      lastName: last_name,
+      org: {
+        id: orgId,
+        name: orgName,
+        role: ownUser?.role || '',
+      },
     }));
   } catch (e) {
     yield put(authGetProfileAction.failure(e as RequestError));
