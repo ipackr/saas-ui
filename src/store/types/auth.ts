@@ -1,3 +1,5 @@
+import { OrgRole } from 'core/api/roles';
+
 export interface AuthState {
   authCheckCompleted: boolean;
   authenticated: boolean;
@@ -8,7 +10,7 @@ export interface AuthState {
   org: {
     id: string;
     name: string;
-    role: string;
+    role: OrgRole;
   },
 }
 

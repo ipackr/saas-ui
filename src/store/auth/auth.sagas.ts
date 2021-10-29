@@ -107,7 +107,7 @@ export function* authGetProfileRequest() {
       org: {
         id: orgId,
         name: orgName,
-        role: ownUser?.role || '',
+        role: ownUser!.role,
       },
     }));
   } catch (e) {
