@@ -1,7 +1,6 @@
 import { createAsyncAction, ActionType, getType } from 'typesafe-actions';
 import { AuthState, LoginPayload, LogoutPayload, UpdateProfilePayload } from 'store/types';
 import { RequestError } from 'core/api/types';
-import { OrgRole } from 'core/api/roles';
 
 const DEFAULT_STATE: AuthState = {
   authenticated: false,
@@ -13,7 +12,6 @@ const DEFAULT_STATE: AuthState = {
   org: {
     id: '',
     name: '',
-    role: OrgRole.Technical,
   },
 };
 

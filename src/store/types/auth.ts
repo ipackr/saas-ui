@@ -10,7 +10,7 @@ export interface AuthState {
   org: {
     id: string;
     name: string;
-    role: OrgRole;
+    role?: OrgRole;
   },
 }
 
