@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authGetProfileAction, getAuth } from 'store/auth';
 import { PrivateLayout } from 'components/Layouts';
 import { getStyles } from './Dashboard.styles';
+import { Messages } from './Dashboard.messages';
+import { LINKS } from './Dashboard.constants';
 
 export const DashboardPage: FC = () => {
   const dispatch = useDispatch();
   const styles = useStyles(getStyles);
 
-  const { firstName, lastName, org  } = useSelector(getAuth);
+  const { firstName, lastName, org } = useSelector(getAuth);
 
   useEffect(() => {
     dispatch(authGetProfileAction.request());
@@ -20,23 +22,26 @@ export const DashboardPage: FC = () => {
       <div className={styles.container}>
         <div className={styles.cardsContainer}>
           <div className={styles.card}>
-            <p>Your account</p>
-            <p>Name: {firstName} {lastName}</p>
-            <p>Role: {org.role}</p>
-            <p>Account type: Free Account</p>
+            <p className={styles.cardTitle}>{Messages.yourAccount}</p>
             <p>
-              Percona&apos;s experts can maximize your application
-              performance with our open source database support, managed services or consulting.
+              <span className={styles.cardPoint}>{Messages.name}</span> {firstName} {lastName}
             </p>
-            <LinkButton variant="primary" href="https://www.percona.com/about-percona/contact#us">Contact Us</LinkButton>
+            <p>
+              <span className={styles.cardPoint}>{Messages.role}</span> {org.role}
+            </p>
+            <p>
+              <span className={styles.cardPoint}>{Messages.accountType}</span> {Messages.freeAccount}
+            </p>
+            <p>{Messages.perconaExperts}</p>
+            <LinkButton target="_blank" rel="noreferrer" className={styles.contactBtn} variant="primary" href={LINKS.contactUs}>{Messages.contactUs}</LinkButton>
           </div>
           <div className={styles.card}>
-            <p>Percona contacts</p>
-            <p>You can find us on our Community spaces:</p>
-            <p><a href="https://forums.percona.com/" target="_blank" rel="noreferrer">Forums</a></p>
-            <p><a href="http://per.co.na/discord" target="_blank" rel="noreferrer">Discord</a></p>
+            <p className={styles.cardTitle}>{Messages.perconaContacts}</p>
+            <p>{Messages.findUs}</p>
+            <p><a href={LINKS.forum} target="_blank" rel="noreferrer">{Messages.forums}</a></p>
+            <p><a href={LINKS.discord} target="_blank" rel="noreferrer">{Messages.discord}</a></p>
             <p>
-              Or get in touch via <a href="https://www.percona.com/about-percona/contact" target="_blank" rel="noreferrer">https://www.percona.com/about-percona/contact</a>
+             {Messages.getInTouch} <a href={LINKS.contact} target="_blank" rel="noreferrer">{LINKS.contact}</a>
             </p>
           </div>
         </div>

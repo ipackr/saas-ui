@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import { GrafanaTheme } from '@grafana/data';
 
-export const getStyles = ({ spacing, colors }: GrafanaTheme) => ({
+export const getStyles = ({ spacing, colors, typography }: GrafanaTheme) => ({
   container: css`
     display: flex;
     flex-direction: column;
@@ -27,5 +27,15 @@ export const getStyles = ({ spacing, colors }: GrafanaTheme) => ({
         margin-bottom: ${spacing.lg};
       }
     }
-  `,  
+  `,
+  cardTitle: css`
+    font-size: ${typography.size.lg};
+    font-weight: ${typography.weight.bold};
+  `,
+  cardPoint: css`
+    font-weight: ${typography.weight.semibold};
+  `,
+  contactBtn: css`
+    text-decoration: none;
+  `,
 });
