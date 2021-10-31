@@ -1,0 +1,31 @@
+import { css } from 'emotion';
+import { GrafanaTheme } from '@grafana/data';
+
+export const getStyles = ({ spacing, colors }: GrafanaTheme) => ({
+  container: css`
+    display: flex;
+    flex-direction: column;
+  `,
+  cardsContainer: css`
+    display: flex;
+    flex-wrap: wrap;
+  `,
+  card: css`
+    flex: 1 1 calc(50% - ${spacing.lg});
+    padding: ${spacing.lg};
+    background-color: ${colors.pageHeaderBg};
+
+    @media (max-width: 850px) {
+      flex: 0 0 100%;
+    }
+
+    &:first-child {
+      margin-right: ${spacing.lg};
+
+      @media (max-width: 850px) {
+        margin: 0;
+        margin-bottom: ${spacing.lg};
+      }
+    }
+  `,  
+});
