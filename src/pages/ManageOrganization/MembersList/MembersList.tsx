@@ -50,7 +50,7 @@ export const MembersList: FC<MembersListProps> = ({ loading, members }) => {
   ) as any;
 
   return (
-    <div className={styles.tableWrapper}>
+    <div data-testid="members-list-wrapper" className={styles.tableWrapper}>
       <Table
         data={members}
         totalItems={members.length}
