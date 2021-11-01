@@ -7,10 +7,22 @@ export enum MemberRole {
   technical = 'Technical',
 }
 
-export interface Member {
+export enum MemberStatus {
+  active = 'ACTIVE',
+}
+
+export interface MemberPayload {
   username: string;
   first_name: string;
   last_name: string;
-  role: typeof MemberRole;
-  status: string;
+  role: MemberRole;
+  status: MemberStatus;
+}
+
+export interface Member {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: MemberRole;
+  status: MemberStatus;
 }

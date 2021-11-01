@@ -8,18 +8,33 @@ import { useSelector } from 'react-redux';
 import { getAuth } from 'store/auth';
 import { Messages } from './ManageOrganization.messages';
 import { getStyles } from './ManageOrganization.styles';
-import { CreateOrganizationPayload, Member, MemberRole } from './ManageOrganization.types';
+import { CreateOrganizationPayload, Member, MemberPayload, MemberRole } from './ManageOrganization.types';
 import { DEFAULT_TAB_INDEX, GET_USER_ORGS_URL, ORGANIZATIONS_URL, GET_MEMBERS_URL_CHUNK } from './ManageOrganization.constants';
 import { OrganizationView } from './OrganizationView';
 import { OrganizationCreate } from './OrganizationCreate';
 import { InviteMember } from './InviteMember';
+import { MembersList } from './MembersList';
+
+const formatMembers = (members: MemberPayload[]) => members.map(({
+  first_name: firstName,
+  last_name: lastName,
+  username: email,
+  ...rest
+}: MemberPayload): Member => ({
+    firstName,
+    lastName,
+    email,
+    ...rest,
+  }),
+);
 
 export const ManageOrganizationPage: FC = () => {
   const styles = useStyles(getStyles);
   const [orgId, setOrgId] = useState<string>();
+  const [orgMembers, setOrgMembers] = useState<Member[]>([]);
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
-  const { email } = useSelector(getAuth);
+  const { email: userEmail } = useSelector(getAuth);
   const { response, error, loading, post, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
 
   const handleCreateOrgSubmit = useCallback(async ({ organizationName }: CreateOrganizationPayload) => {
@@ -38,6 +53,7 @@ export const ManageOrganizationPage: FC = () => {
       content: (
         <div data-testid="manage-organization-members-tab">
           {userIsAdmin && <InviteMember orgId={orgId!} />}
+          <MembersList members={orgMembers} loading={loading} />
         </div>
       ),
     },
@@ -59,7 +75,7 @@ export const ManageOrganizationPage: FC = () => {
         </div>
       ),
     },
-  ], [handleCreateOrgSubmit, loading, orgId, userIsAdmin]);
+  ], [handleCreateOrgSubmit, loading, orgId, orgMembers, userIsAdmin]);
 
   useEffect(() => {
     const getOrgs = async () => {
@@ -83,7 +99,10 @@ export const ManageOrganizationPage: FC = () => {
   useEffect(() => {
     const getUserRole = async () => {
       const { members } = await post(`${ORGANIZATIONS_URL}/${orgId}/${GET_MEMBERS_URL_CHUNK}`);
-      const loggedInMember = members?.find((member: Member) => member.username === email);
+
+      setOrgMembers(formatMembers(members));
+
+      const loggedInMember = members?.find((member: MemberPayload) => member.username === userEmail);
 
       setUserIsAdmin(loggedInMember?.role === MemberRole.admin);
     };
@@ -91,7 +110,7 @@ export const ManageOrganizationPage: FC = () => {
     if (orgId) {
       getUserRole();
     }
-  }, [email, post, orgId]);
+  }, [userEmail, post, orgId]);
 
   return (
     <PrivateLayout>
