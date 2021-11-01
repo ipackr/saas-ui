@@ -8,25 +8,13 @@ import { useSelector } from 'react-redux';
 import { getAuth } from 'store/auth';
 import { Messages } from './ManageOrganization.messages';
 import { getStyles } from './ManageOrganization.styles';
+import { formatMembers } from './ManageOrganization.utils';
 import { CreateOrganizationPayload, Member, MemberPayload, MemberRole } from './ManageOrganization.types';
 import { DEFAULT_TAB_INDEX, GET_USER_ORGS_URL, ORGANIZATIONS_URL, GET_MEMBERS_URL_CHUNK } from './ManageOrganization.constants';
 import { OrganizationView } from './OrganizationView';
 import { OrganizationCreate } from './OrganizationCreate';
 import { InviteMember } from './InviteMember';
 import { MembersList } from './MembersList';
-
-const formatMembers = (members: MemberPayload[]) => members.map(({
-  first_name: firstName,
-  last_name: lastName,
-  username: email,
-  ...rest
-}: MemberPayload): Member => ({
-    firstName,
-    lastName,
-    email,
-    ...rest,
-  }),
-);
 
 export const ManageOrganizationPage: FC = () => {
   const styles = useStyles(getStyles);
