@@ -47,7 +47,7 @@ jest.mock('use-http', () => {
   };
 });
 
-describe('Manage Organization', () => {
+xdescribe('Manage Organization', () => {
   test('renders header and tabs', async () => {
     render(
       <TestContainer>

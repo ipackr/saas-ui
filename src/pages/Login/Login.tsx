@@ -1,74 +1,59 @@
-import React, { FC, useCallback } from 'react';
-import { Form, FormRenderProps } from 'react-final-form';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { useStyles } from '@grafana/ui';
-import {
-  LoaderButton, PasswordInputField, TextInputField, validators,
-} from '@percona/platform-core';
-import { authLoginAction, getAuth } from 'store/auth';
-import { LoginPayload } from 'store/types';
-import { PASSWORD_MIN_LENGTH } from 'core/constants';
+import { LoaderButton } from '@percona/platform-core';
+import { useOktaAuth } from '@okta/okta-react';
 import { PublicLayout } from 'components';
 import { Routes } from 'core/routes';
 import { Messages } from './Login.messages';
 import { getStyles } from './Login.styles';
 
-const {
-  containsLowercase, containsNumber, containsUppercase, email, required,
-} = validators;
-const minLength = validators.minLength(PASSWORD_MIN_LENGTH);
-
-const emailValidators = [required, email];
-const passwordValidators = [required, minLength, containsNumber, containsLowercase, containsUppercase];
-
 export const LoginPage: FC = () => {
   const styles = useStyles(getStyles);
-  const dispatch = useDispatch();
-  const { pending } = useSelector(getAuth);
-
-  const handleLoginSubmit = useCallback(
-    (credentials: LoginPayload) => {
-      dispatch(authLoginAction.request(credentials));
-    },
-    [dispatch],
-  );
+  const { oktaAuth } = useOktaAuth();
+  const doLogin = () => oktaAuth.signInWithRedirect({ originalUri: Routes.root });
 
   return (
     <PublicLayout>
-      <Form onSubmit={handleLoginSubmit}>
-        {({ handleSubmit, pristine, valid }: FormRenderProps) => (
-          <form data-testid="login-form" className={styles.form} onSubmit={handleSubmit}>
-            <legend className={styles.legend}>{Messages.signIn}</legend>
-            <TextInputField name="email" label={Messages.emailLabel} validators={emailValidators} parse={(value) => value.trim()} required />
-            <PasswordInputField
-              name="password"
-              label={Messages.passwordLabel}
-              validators={passwordValidators}
-              inputProps={{ autoComplete: 'off' }}
-              required
-            />
-            <div className={styles.resetPasswordLinkWrapper}>
-              <a href={Routes.resetPassword} className={styles.resetPasswordLink} target="_blank" data-testid="login-reset-password-button" rel="noreferrer">
-                {Messages.forgotPassword}
-              </a>
-            </div>
-            <LoaderButton
-              data-testid="login-submit-button"
-              className={styles.loginButton}
-              type="submit"
-              loading={pending}
-              disabled={!valid || pending || pristine}
-            >
-              {Messages.signIn}
-            </LoaderButton>
-            <div className={styles.divider}>{Messages.or}</div>
-            <Link to={Routes.signup} data-testid="signup-action-button" className={styles.gotoSignup}>
-              {Messages.signUp}
-            </Link>
-          </form>
-        )}
-      </Form>
+      <section className={styles.container}>
+        <LoaderButton
+          data-testid="login-button"
+          className={styles.loginButton}
+          type="button"
+          size="md"
+          onClick={doLogin}
+        >
+          {Messages.signIn}
+        </LoaderButton>
+        {/* The Link component wouldn't work here, especially when we return back from Okta */}
+        <a
+          href={Routes.signup}
+          data-testid="signup-link"
+          className={styles.gotoButton}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {Messages.signUp}
+        </a>
+        <Link
+          to={{ pathname: Routes.resetPassword }}
+          data-testid="login-reset-password-link"
+          className={styles.gotoButton}
+          target="_blank"
+          rel="noopener"
+        >
+          {Messages.forgotPassword}
+        </Link>
+        <Link
+          to={{ pathname: Routes.help }}
+          data-testid="login-help-link"
+          className={styles.gotoButton}
+          target="_blank"
+          rel="noopener"
+        >
+          {Messages.help}
+        </Link>
+      </section>
     </PublicLayout>
   );
 };

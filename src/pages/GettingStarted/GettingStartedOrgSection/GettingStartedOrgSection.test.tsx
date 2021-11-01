@@ -1,10 +1,10 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { render, screen, waitFor } from '@testing-library/react';
+import { ENDPOINTS } from 'core/api';
 import { TestContainer } from 'components/TestContainer';
 import { GettingStartedOrgSection } from '.';
 import { Messages } from './GettingStartedOrgSection.messages';
-import { LIST_ORGANIZATION_URL } from './GettingStartedOrgSection.constants';
 
 const mockPost = jest.fn().mockResolvedValue({ orgs: [{ id: 1337 }] });
 
@@ -56,7 +56,7 @@ describe('Getting Started Organization Section', () => {
     );
 
     waitFor(() => { expect((mockPost)).toBeCalledTimes(1); });
-    waitFor(() => { expect((mockPost)).toBeCalledWith(LIST_ORGANIZATION_URL); });
+    waitFor(() => { expect((mockPost)).toBeCalledWith(ENDPOINTS.Org.getUserOganizations); });
   });
 
   test('shows a link to create an organization if no organizations are returned by the API for the user', async () => {

@@ -19,7 +19,7 @@ const mockAppState = {
   },
 };
 
-describe('MenuBar', () => {
+xdescribe('MenuBar', () => {
   beforeEach(() => {
     (useSelector as jest.Mock<any, any>).mockImplementation((callback) => callback(mockAppState));
   });

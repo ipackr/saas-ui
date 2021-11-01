@@ -1,5 +1,5 @@
 import { createAsyncAction, ActionType, getType } from 'typesafe-actions';
-import { AuthState, LoginPayload, SignupPayload, LogoutPayload, UpdateProfilePayload } from 'store/types';
+import { AuthState, LoginPayload, LogoutPayload, UpdateProfilePayload } from 'store/types';
 import { RequestError } from 'core/api/types';
 
 const DEFAULT_STATE: AuthState = {
@@ -11,23 +11,11 @@ const DEFAULT_STATE: AuthState = {
   authCheckCompleted: false,
 };
 
-export const authRefreshAction = createAsyncAction(
-  'LOGIN_REFRESH_REQUEST',
-  'LOGIN_REFRESH_SUCCESS',
-  'LOGIN_REFRESH_FAILURE',
-)<undefined, Pick<AuthState, 'email'>, RequestError>();
-
 export const authLoginAction = createAsyncAction(
   'LOGIN_USER_REQUEST',
   'LOGIN_USER_SUCCESS',
   'LOGIN_USER_FAILURE',
 )<LoginPayload, Pick<AuthState, 'email'>, RequestError>();
-
-export const authSignupAction = createAsyncAction(
-  'SIGNUP_USER_REQUEST',
-  'SIGNUP_USER_SUCCESS',
-  'SIGNUP_USER_FAILURE',
-)<SignupPayload, undefined, RequestError>();
 
 export const authLogoutAction = createAsyncAction(
   'LOGOUT_USER_REQUEST',
@@ -48,9 +36,7 @@ export const authUpdateProfileAction = createAsyncAction(
 )<UpdateProfilePayload, undefined, RequestError>();
 
 export type AuthActions = (
-  ActionType<typeof authRefreshAction>
-  | ActionType<typeof authSignupAction>
-  | ActionType<typeof authLoginAction>
+  ActionType<typeof authLoginAction>
   | ActionType<typeof authLogoutAction>
   | ActionType<typeof authGetProfileAction>
   | ActionType<typeof authUpdateProfileAction>
@@ -58,47 +44,6 @@ export type AuthActions = (
 
 export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthActions): AuthState {
   switch (action.type) {
-    // Refresh Session
-    case getType(authRefreshAction.request):
-      return {
-        ...state,
-        pending: true,
-        authCheckCompleted: false,
-      };
-    case getType(authRefreshAction.success):
-      return {
-        ...state,
-        authenticated: true,
-        email: action.payload.email,
-        pending: false,
-        authCheckCompleted: true,
-      };
-    case getType(authRefreshAction.failure):
-      return {
-        ...state,
-        authenticated: false,
-        email: undefined,
-        pending: false,
-        authCheckCompleted: true,
-      };
-    // Signup
-    case getType(authSignupAction.request):
-      return {
-        ...state,
-        email: action.payload.email,
-        pending: true,
-      };
-    case getType(authSignupAction.success):
-      return {
-        ...state,
-        pending: false,
-      };
-    case getType(authSignupAction.failure):
-      return {
-        ...state,
-        email: undefined,
-        pending: false,
-      };
     // Login
     case getType(authLoginAction.request):
       return {

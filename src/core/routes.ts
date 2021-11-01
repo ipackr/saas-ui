@@ -1,14 +1,16 @@
-import { OKTA_BASE_URL } from 'core/constants';
+import { OKTA_HOST } from 'core/constants';
 
 export const Routes = {
-  root: '/',
-  ui: '/ui',
+  editProfile: `https://${OKTA_HOST}/enduser/settings`,
+  help: `https://${OKTA_HOST}/help/login`,
   login: '/login',
+  loginCallback: '/login/callback',
   logout: '/logout',
-  signup: '/signup',
-  welcome: '/welcome',
-  profile: '/profile',
   organization: '/organization',
-  editProfile: `https://${OKTA_BASE_URL}/enduser/settings`,
-  resetPassword: `https://${OKTA_BASE_URL}/signin/forgot-password`,
+  profile: '/profile',
+  root: '/',
+  resetPassword: `https://${OKTA_HOST}/signin/forgot-password`,
+  signup: `https://${OKTA_HOST}/signin/register`,
+  ui: '/ui',
+  welcome: '/welcome',
 };

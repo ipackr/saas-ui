@@ -1,19 +1,14 @@
 import { css } from 'emotion';
 import { GrafanaTheme } from '@grafana/data';
 
-const centeredButton = css`
+const button = css`
   width: 100%;
-  display: flex;
-  justify-content: center;
+  display: block;
+  margin: 2em 0;
 `;
 
 export const getStyles = (theme: GrafanaTheme) => {
   const { colors, spacing, typography } = theme;
-
-  const externalLink = css`
-    color: ${colors.linkExternal};
-    text-decoration: none;
-  `;
 
   return {
     legend: css`
@@ -28,32 +23,25 @@ export const getStyles = (theme: GrafanaTheme) => {
       padding: 0;
       vertical-align: baseline;
     `,
-    form: css`
+    container: css`
       max-width: 325px;
       min-width: 250px;
       width: 100%;
     `,
-    divider: css`
-      margin: 1em 0px;
-      text-align: center;
-    `,
-    submitButton: css`
-      ${centeredButton}
-      margin-bottom: ${spacing.formInputMargin};
-    `,
     loginButton: css`
-      ${centeredButton}
+      ${button}
+      display: flex;
+      justify-content: center;
       margin-bottom: ${spacing.formInputMargin};
     `,
-    gotoSignup: css`
-      ${centeredButton}
-      ${externalLink}
-    `,
-    resetPasswordLinkWrapper: css`
-      margin-bottom: ${spacing.xl};
-    `,
-    resetPasswordLink: css`
-      ${externalLink}
+    gotoButton: css`
+      ${button}
+      color: ${colors.linkExternal};
+      text-align: center;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
     `,
   };
 };

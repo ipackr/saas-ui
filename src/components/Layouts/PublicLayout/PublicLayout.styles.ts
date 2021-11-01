@@ -30,7 +30,6 @@ export const getStyles = (theme: GrafanaTheme) => {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 1em;
       svg {
         width: 220px;
         height: 70px;
@@ -42,7 +41,6 @@ export const getStyles = (theme: GrafanaTheme) => {
           width: 470px;
           height: 150px;
         }
-        margin-top: 1em;
       }
     `,
     centerZone: css`

@@ -2,48 +2,22 @@ import {
   all, put, call, takeLatest, StrictEffect,
 } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { logger } from '@percona/platform-core';
-import {
-  signIn, signUp, signOut, getProfile, updateProfile, refreshSession,
-} from 'core/api/auth';
+import { signIn, getProfile, updateProfile } from 'core/api/auth';
 import {
   GetProfileResponse,
-  RefreshSessionResponse,
   RequestError,
   SignInResponse,
-  SignUpResponse,
 } from 'core/api/types';
 import { Messages } from 'core/api/messages';
 import { toast } from 'react-toastify';
-import { Routes } from 'core/routes';
-import { history } from 'core/history';
+import { Routes, history } from 'core';
 import { HTTP_STATUS } from 'core/api';
 import {
-  authRefreshAction,
   authLoginAction,
-  authSignupAction,
   authLogoutAction,
   authGetProfileAction,
   authUpdateProfileAction,
 } from './auth.reducer';
-
-// Refresh Session
-
-type AuthRefreshSessionRequestGenerator = Generator<
-  StrictEffect, void, AxiosResponse<RefreshSessionResponse>
->;
-
-export function* authRefreshSessionRequest(): AuthRefreshSessionRequestGenerator {
-  try {
-    const { data } = yield call(refreshSession);
-
-    yield put(authRefreshAction.success({ email: data.email }));
-  } catch (e: any) {
-    logger.error(e.message || e);
-
-    yield put(authRefreshAction.failure(e as RequestError));
-  }
-}
 
 // Login
 
@@ -80,44 +54,12 @@ export function* authLoginSuccess(action: AuthLoginActionSuccess): AuthLoginSucc
   history.replace(Routes.root);
 }
 
-// Signup
-
-type AuthSignupActionRequest = ReturnType<typeof authSignupAction.request>;
-type AuthSignupRequestGenerator = Generator<StrictEffect, void, SignUpResponse>;
-
-export function* authSignupRequest(action: AuthSignupActionRequest): AuthSignupRequestGenerator {
-  try {
-    yield call(signUp, action.payload);
-
-    yield put(authSignupAction.success());
-  } catch (e) {
-    yield put(authSignupAction.failure(e as RequestError));
-  }
-}
-
-type AuthSignupActionFailure = ReturnType<typeof authSignupAction.failure>;
-type AuthSignupFailureGenerator = Generator<StrictEffect, void, never>;
-
-export function* authSignupFailure(action: AuthSignupActionFailure): AuthSignupFailureGenerator {
-  yield call([toast, toast.error], Messages.signUpFailed);
-  console.error(action.payload);
-}
-
-type AuthSignupSuccessGenerator = Generator<StrictEffect, void, never>;
-
-export function* authSignupSuccess(): AuthSignupSuccessGenerator {
-  yield call([toast, toast.success], Messages.signUpSucceeded);
-  history.replace(Routes.login);
-}
-
 // Logout
 
 type AuthLogoutRequestGenerator = Generator<StrictEffect, void, never>;
 
 export function* authLogoutRequest(): AuthLogoutRequestGenerator {
   try {
-    yield call(signOut);
-
     yield put(authLogoutAction.success());
   } catch (e) {
     yield put(authLogoutAction.failure(e as RequestError));
@@ -204,13 +146,9 @@ export function* authUpdateProfileSuccess(): AuthUpdateProfileSuccessGenerator {
 
 export function* authSagas() {
   yield all([
-    takeLatest(authRefreshAction.request, authRefreshSessionRequest),
     takeLatest(authLoginAction.request, authLoginRequest),
     takeLatest(authLoginAction.success, authLoginSuccess),
     takeLatest(authLoginAction.failure, authLoginFailure),
-    takeLatest(authSignupAction.request, authSignupRequest),
-    takeLatest(authSignupAction.success, authSignupSuccess),
-    takeLatest(authSignupAction.failure, authSignupFailure),
     takeLatest(authLogoutAction.request, authLogoutRequest),
     takeLatest(authLogoutAction.success, authLogoutSuccess),
     takeLatest(authLogoutAction.failure, authLogoutFailure),

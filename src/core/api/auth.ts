@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios';
 import { Api, ENDPOINTS } from 'core/api';
 import {
   GetProfileResponse,
-  RefreshSessionResponse,
   RequestBody,
   SignInRequest,
   SignInResponse,
@@ -10,10 +9,6 @@ import {
   SignUpResponse,
   UpdateProfileRequest,
 } from './types';
-
-export const refreshSession = () => Api.post<RequestBody, AxiosResponse<RefreshSessionResponse>>(
-  Auth.RefreshSession, {},
-);
 
 const { Auth } = ENDPOINTS;
 

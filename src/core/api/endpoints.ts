@@ -8,4 +8,9 @@ export const ENDPOINTS = {
     SignUp: '/v1/auth/SignUp',
     UpdateProfile: '/v1/auth/UpdateProfile',
   },
+  Org: {
+    getOrganization: '/v1/orgs',
+    createOrganization: '/v1/orgs',
+    getUserOganizations: '/v1/orgs:search',
+  },
 };

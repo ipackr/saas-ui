@@ -39,6 +39,8 @@
   "dependencies": {
     "@grafana/data": "7.3.7",
     "@grafana/ui": "7.3.7",
+    "@okta/okta-auth-js": "^5.5.0",
+    "@okta/okta-react": "^6.1.0",
     "@percona/platform-core": "^0.9.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
@@ -53,8 +55,6 @@
     "connected-react-router": "^6.8.0",
     "emotion": "^10.0.27",
     "final-form": "^4.20.1",
-    "google-protobuf": "^3.13.0",
-    "grpc-web": "^1.2.1",
     "history": "4.7.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
@@ -87,8 +87,8 @@
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-no-inline-styles": "^1.0.5",
-    "faker": "^5.1.0",
-    "generate-password": "^1.6.0",
+    "faker": "^5.5.3",
+    "generate-password": "^1.6.1",
     "jest-canvas-mock": "^2.2.0",
     "mocha": "^8.3.0",
     "mochawesome": "^6.2.2",
@@ -117,5 +117,6 @@
   },
   "bugs": {
     "url": "https://jira.percona.com/browse/SAAS"
-  }
+  },
+  "proxy": "https://platform-local.localhost"
 }
