@@ -95,7 +95,7 @@ export const ManageOrganizationPage: FC = () => {
 
       setOrgMembers(formatMembers(members));
 
-      const loggedInMember = members?.find((member: MemberPayload) => member.username === userEmail);
+      const loggedInMember = members?.find((member: MemberPayload) => member.username === email);
 
       setUserIsAdmin(loggedInMember?.role === MemberRole.admin);
     };
@@ -103,7 +103,7 @@ export const ManageOrganizationPage: FC = () => {
     if (orgId) {
       getUserRole();
     }
-  }, [userEmail, post, orgId]);
+  }, [email, post, orgId]);
 
   return (
     <PrivateLayout>
