@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import useFetch, { CachePolicies } from 'use-http';
 import { Form, FormRenderProps, Field } from 'react-final-form';
-import { ENDPOINTS } from 'core/api';
 import { getUseHttpConfig } from 'core/api/api.service';
 import { useStyles, Button, Label, Select } from '@grafana/ui';
 import { LoaderButton, Modal, TextInputField, validators } from '@percona/platform-core';
@@ -12,7 +11,6 @@ import { GET_ORGANIZATION_URL, ROLES, ORGANIZATION_MEMBER_URL_CHUNK } from './In
 import { MemberRole } from '../ManageOrganization.types';
 import { InviteMemberFormFields, InviteMemberProps } from './InviteMember.types';
 
-const { Org } = ENDPOINTS;
 const { email: emailValidator, required } = validators;
 
 const initialValues = {
@@ -23,9 +21,8 @@ const initialValues = {
 export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
   const styles = useStyles(getStyles);
   const fetchConfig = getUseHttpConfig(
-    `${Org.getOrganization}\\${orgId}`,
+    undefined,
     { cachePolicy: CachePolicies.NO_CACHE },
-    [orgId],
   );
   const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
   const [isModalVisible, setIsModalVisible] = useState(false);
