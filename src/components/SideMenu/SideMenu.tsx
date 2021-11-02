@@ -3,6 +3,7 @@ import { useStyles } from '@grafana/ui';
 import { IconLink } from 'components';
 import { Routes } from 'core/routes';
 import dotCircle from 'assets/dot-circle.svg';
+import dashboard from 'assets/dashboard.svg';
 import { getStyles } from './SideMenu.styles';
 import { Messages } from './SideMenu.messages';
 
@@ -19,6 +20,13 @@ export const SideMenu: FC = () => {
           alt={Messages.gettingStarted}
         >
           {Messages.gettingStarted}
+        </IconLink>
+        <IconLink
+          icon={dashboard}
+          to={Routes.dashboard}
+          alt={Messages.dashboard}
+        >
+          {Messages.dashboard}
         </IconLink>
       </section>
     </nav>
