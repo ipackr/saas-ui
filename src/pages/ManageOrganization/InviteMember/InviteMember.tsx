@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import useFetch, { CachePolicies } from 'use-http';
 import { Form, FormRenderProps, Field } from 'react-final-form';
+import { getUseHttpConfig } from 'core/api/api.service';
 import { useStyles, Button, Label, Select } from '@grafana/ui';
 import { LoaderButton, Modal, TextInputField, validators } from '@percona/platform-core';
 import { toast } from 'react-toastify';
@@ -19,7 +20,11 @@ const initialValues = {
 
 export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
   const styles = useStyles(getStyles);
-  const { response, error, post, loading, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
+  const fetchConfig = getUseHttpConfig(
+    undefined,
+    { cachePolicy: CachePolicies.NO_CACHE },
+  );
+  const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {

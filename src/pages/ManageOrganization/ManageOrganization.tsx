@@ -2,6 +2,7 @@ import React, { FC, useCallback, useMemo, useEffect, useState } from 'react';
 import useFetch, { CachePolicies } from 'use-http';
 import { toast } from 'react-toastify';
 import { useStyles, Tab, TabsBar, TabContent } from '@grafana/ui';
+import { getUseHttpConfig } from 'core/api/api.service';
 import { PrivateLayout } from 'components/Layouts';
 import { ReactComponent as OrganizationLogo } from 'assets/organization.svg';
 import { useSelector } from 'react-redux';
@@ -22,8 +23,12 @@ export const ManageOrganizationPage: FC = () => {
   const [orgMembers, setOrgMembers] = useState<Member[]>([]);
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
-  const { email: userEmail } = useSelector(getAuth);
-  const { response, error, loading, post, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
+  const { email } = useSelector(getAuth);
+  const fetchConfig = getUseHttpConfig(
+    undefined,
+    { cachePolicy: CachePolicies.NO_CACHE },
+  );
+  const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
 
   const handleCreateOrgSubmit = useCallback(async ({ organizationName }: CreateOrganizationPayload) => {
     const { org } = await post(ORGANIZATIONS_URL, { name: organizationName });
