@@ -2,6 +2,8 @@ import React, { FC, useCallback, useMemo, useEffect, useState } from 'react';
 import useFetch, { CachePolicies } from 'use-http';
 import { toast } from 'react-toastify';
 import { useStyles, Tab, TabsBar, TabContent } from '@grafana/ui';
+import { getUseHttpConfig } from 'core/api/api.service';
+import { ENDPOINTS } from 'core/api';
 import { PrivateLayout } from 'components/Layouts';
 import { ReactComponent as OrganizationLogo } from 'assets/organization.svg';
 import { useSelector } from 'react-redux';
@@ -14,13 +16,20 @@ import { OrganizationView } from './OrganizationView';
 import { OrganizationCreate } from './OrganizationCreate';
 import { InviteMember } from './InviteMember';
 
+const { Org } = ENDPOINTS;
+
 export const ManageOrganizationPage: FC = () => {
   const styles = useStyles(getStyles);
   const [orgId, setOrgId] = useState<string>();
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
   const { email } = useSelector(getAuth);
-  const { response, error, loading, post, data = {} } = useFetch({ cachePolicy: CachePolicies.NO_CACHE });
+  const fetchConfig = getUseHttpConfig(
+    `${Org.getOrganization}\\${orgId}`,
+    { cachePolicy: CachePolicies.NO_CACHE },
+    [orgId],
+  );
+  const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
 
   const handleCreateOrgSubmit = useCallback(async ({ organizationName }: CreateOrganizationPayload) => {
     const { org } = await post(ORGANIZATIONS_URL, { name: organizationName });
