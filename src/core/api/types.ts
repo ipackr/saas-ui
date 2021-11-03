@@ -1,5 +1,3 @@
-import { OrgRole } from './roles';
-
 export interface RequestBody {
   [key: string]: any;
 }
@@ -70,7 +68,7 @@ export interface OrganizationMembersResponse {
   username: string;
   first_name: string;
   last_name: string;
-  role: OrgRole;
+  role: string;
   status: string;
 }
 
