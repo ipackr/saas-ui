@@ -11,6 +11,7 @@ export const getStyles = ({ spacing, colors, typography }: GrafanaTheme) => ({
     flex-wrap: wrap;
   `,
   card: css`
+    color: ${colors.text};
     flex: 1 1 calc(50% - ${spacing.lg});
     padding: ${spacing.lg};
     background-color: ${colors.pageHeaderBg};
