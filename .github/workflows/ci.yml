@@ -50,7 +50,7 @@ jobs:
         run: make test
 
       - name: Build platform-ui artifacts
-        run: make build
+        run: make build_WRONG_TARGET
 
       - name: Setup tmate session on failure
         if: ${{ failure() }}
