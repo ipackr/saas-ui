@@ -50,11 +50,11 @@ jobs:
         run: make test
 
       - name: Build platform-ui artifacts
-        run: make build_WRONG_TARGET
+        run: make build
 
-      - name: Setup tmate session on failure
-        if: ${{ failure() }}
-        uses: percona-platform/action-tmate@v3
+      #- name: Setup tmate session on failure
+      #  if: ${{ failure() }}
+      #  uses: percona-platform/action-tmate@v3
 
 
   docker:
