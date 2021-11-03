@@ -41,6 +41,8 @@ const runSagaPromise = (saga: Saga, payload?: any) => runSaga({
   },
 }, saga, { payload }).toPromise();
 
+jest.mock('core/api/orgs');
+
 describe('Auth Sagas', () => {
   beforeEach(() => {
     consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -77,9 +79,9 @@ describe('Auth Sagas', () => {
     const getProfile = jest.spyOn(authApi, 'getProfile').mockImplementation(() => Promise.resolve(
       {
         data: {
-          email: 'test@test.test',
-          first_name: 'Firstname',
-          last_name: 'test@test.test',
+          email: 'email@test.mail.com',
+          first_name: 'FirstName',
+          last_name: 'LastName',
         },
       } as AxiosResponse<GetProfileResponse>,
     ));
@@ -87,9 +89,14 @@ describe('Auth Sagas', () => {
     await runSagaPromise(authGetProfileRequest as Saga);
 
     expect(dispatchedActions).toEqual([authGetProfileAction.success({
-      email: 'test@test.test',
-      firstName: 'Firstname',
-      lastName: 'test@test.test',
+      email: 'email@test.mail.com',
+      firstName: 'FirstName',
+      lastName: 'LastName',
+      org: {
+        id: 'org1',
+        name: 'Org One',
+        role: 'Admin',
+      },
     })]);
 
     expect(getProfile).toHaveBeenCalledTimes(1);
