@@ -21,7 +21,6 @@ export const LoginPage: FC = () => {
 
     try {
       await oktaAuth.signInWithRedirect({ originalUri: Routes.root });
-      dispatch(authLoginAction.success());
     } catch (e) {
       dispatch(authLoginAction.failure(e as RequestError));
     }
