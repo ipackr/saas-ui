@@ -34,7 +34,7 @@ export const authUpdateProfileAction = createAsyncAction(
   'UPDATE_PROFILE_USER_REQUEST',
   'UPDATE_PROFILE_USER_SUCCESS',
   'UPDATE_PROFILE_USER_FAILURE',
-)<UpdateProfilePayload, undefined, RequestError>();
+)<UpdateProfilePayload, UpdateProfilePayload, RequestError>();
 
 export type AuthActions = (
   ActionType<typeof authLoginAction>
@@ -114,14 +114,13 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
     case getType(authUpdateProfileAction.request):
       return {
         ...state,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
         pending: true,
       };
     case getType(authUpdateProfileAction.success):
       return {
         ...state,
-        freshData: true,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
         pending: false,
       };
     case getType(authUpdateProfileAction.failure):

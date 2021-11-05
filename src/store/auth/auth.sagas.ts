@@ -74,7 +74,7 @@ export function* authUpdateProfileRequest(
   try {
     yield call(updateProfile, action.payload);
 
-    yield put(authUpdateProfileAction.success());
+    yield put(authUpdateProfileAction.success(action.payload));
   } catch (e) {
     yield put(authUpdateProfileAction.failure(e as RequestError));
   }
