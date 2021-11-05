@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authGetProfileAction, getAuth } from '../../store/auth';
 
 export const useUserInfo = () => {
-  const { oktaAuth, authState } = useOktaAuth();
+  const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
   const { pending, email, firstName, lastName } = useSelector(getAuth);
 
   useEffect(() => {
     const getInfo = async() => {
 
-      if (!authState?.isAuthenticated) {
+      if (!email) {
         const { email: oktaEmail, family_name, given_name } = await oktaAuth.getUser();
 
         dispatch(authGetProfileAction.success({
@@ -23,7 +23,7 @@ export const useUserInfo = () => {
     };
 
     getInfo();
-  }, [oktaAuth, dispatch, authState, email]);
+  }, [oktaAuth, dispatch, email]);
 
   return { pending, email, firstName, lastName };
 };
