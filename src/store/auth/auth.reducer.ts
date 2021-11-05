@@ -1,9 +1,10 @@
 import { createAsyncAction, ActionType, getType } from 'typesafe-actions';
-import { AuthState, LoginPayload, LogoutPayload, UpdateProfilePayload } from 'store/types';
+import { AuthState, UpdateProfilePayload } from 'store/types';
 import { RequestError } from 'core/api/types';
 
 const DEFAULT_STATE: AuthState = {
   authenticated: false,
+  freshData: true,
   email: undefined,
   firstName: undefined,
   lastName: undefined,
@@ -15,13 +16,13 @@ export const authLoginAction = createAsyncAction(
   'LOGIN_USER_REQUEST',
   'LOGIN_USER_SUCCESS',
   'LOGIN_USER_FAILURE',
-)<LoginPayload, Pick<AuthState, 'email'>, RequestError>();
+)<undefined, undefined, RequestError>();
 
 export const authLogoutAction = createAsyncAction(
   'LOGOUT_USER_REQUEST',
   'LOGOUT_USER_SUCCESS',
   'LOGOUT_USER_FAILURE',
-)<LogoutPayload, undefined, RequestError>();
+)<undefined, undefined, RequestError>();
 
 export const authGetProfileAction = createAsyncAction(
   'GET_PROFILE_USER_REQUEST',
@@ -48,13 +49,13 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
     case getType(authLoginAction.request):
       return {
         ...state,
-        email: action.payload.email,
         pending: true,
       };
     case getType(authLoginAction.success):
       return {
         ...state,
         authenticated: true,
+        freshData: true,
         pending: false,
       };
     case getType(authLoginAction.failure):
@@ -96,6 +97,7 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         pending: false,
+        freshData: false,
         authCheckCompleted: true,
       };
     case getType(authGetProfileAction.failure):
@@ -119,6 +121,7 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
     case getType(authUpdateProfileAction.success):
       return {
         ...state,
+        freshData: true,
         pending: false,
       };
     case getType(authUpdateProfileAction.failure):
