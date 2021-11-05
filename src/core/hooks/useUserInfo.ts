@@ -1,17 +1,24 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { authGetProfileAction, getAuth } from '../../store/auth';
+import { AuthState, UpdateProfilePayload } from 'store/types';
+import { authGetProfileAction, authUpdateProfileAction, getAuth } from '../../store/auth';
 
-export const useUserInfo = () => {
+export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => void] => {
   const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
-  const { pending, email, firstName, lastName } = useSelector(getAuth);
+  const user = useSelector(getAuth);
+  const { freshData } = user;
+
+  const setUser = useCallback((payload: UpdateProfilePayload) => {
+    dispatch(authUpdateProfileAction.request(payload));
+  }, [dispatch]);
 
   useEffect(() => {
     const getInfo = async() => {
 
-      if (!email) {
+      if (freshData) {
+        dispatch(authGetProfileAction.request());
         const { email: oktaEmail, family_name, given_name } = await oktaAuth.getUser();
 
         dispatch(authGetProfileAction.success({
@@ -23,7 +30,7 @@ export const useUserInfo = () => {
     };
 
     getInfo();
-  }, [oktaAuth, dispatch, email]);
+  }, [oktaAuth, dispatch, freshData]);
 
-  return { pending, email, firstName, lastName };
+  return [{ ...user }, setUser];
 };
