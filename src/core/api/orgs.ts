@@ -7,5 +7,7 @@ const { Org } = ENDPOINTS;
 export const searchOrgs = () => Api
   .post<RequestBody, AxiosResponse<SearchOrganizationsResponse>>(Org.getUserOganizations);
 
-export const searchOrgMembers = (id: string) => Api
-  .post<RequestBody, AxiosResponse<SearchOrganizationMembersResponse>>(Org.searchOrgMember(id));
+export const searchOrgMembers = (orgId: string, username?: string) => Api
+  .post<RequestBody, AxiosResponse<SearchOrganizationMembersResponse>>(
+    Org.searchOrgMember(orgId), username ? { user: { username } } : undefined,
+  );
