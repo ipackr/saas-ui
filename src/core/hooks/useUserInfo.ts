@@ -18,7 +18,7 @@ export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => vo
   useEffect(() => {
     const getInfo = async() => {
 
-      if (email) {
+      if (!email) {
         dispatch(authGetProfileAction.request());
 
         try {
