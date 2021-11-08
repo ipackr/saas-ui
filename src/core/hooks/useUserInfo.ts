@@ -9,7 +9,7 @@ export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => vo
   const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
   const user = useSelector(getAuth);
-  const { freshData } = user;
+  const { email } = user;
 
   const setUser = useCallback((payload: UpdateProfilePayload) => {
     dispatch(authUpdateProfileAction.request(payload));
@@ -18,7 +18,7 @@ export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => vo
   useEffect(() => {
     const getInfo = async() => {
 
-      if (freshData) {
+      if (email) {
         dispatch(authGetProfileAction.request());
 
         try {
@@ -36,7 +36,7 @@ export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => vo
     };
 
     getInfo();
-  }, [oktaAuth, dispatch, freshData]);
+  }, [oktaAuth, dispatch, email]);
 
   return [{ ...user }, setUser];
 };

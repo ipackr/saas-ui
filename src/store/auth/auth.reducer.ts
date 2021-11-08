@@ -4,7 +4,6 @@ import { RequestError } from 'core/api/types';
 
 const DEFAULT_STATE: AuthState = {
   authenticated: false,
-  freshData: true,
   email: undefined,
   firstName: undefined,
   lastName: undefined,
@@ -55,7 +54,6 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
       return {
         ...state,
         authenticated: true,
-        freshData: true,
         pending: false,
       };
     case getType(authLoginAction.failure):
@@ -97,7 +95,6 @@ export function authReducer(state: AuthState = DEFAULT_STATE, action: AuthAction
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         pending: false,
-        freshData: false,
         authCheckCompleted: true,
       };
     case getType(authGetProfileAction.failure):
