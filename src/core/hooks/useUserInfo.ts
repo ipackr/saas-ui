@@ -22,10 +22,10 @@ export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => vo
         dispatch(authGetProfileAction.request());
 
         try {
-          const { email: oktaUserEmail, family_name, given_name } = await oktaAuth.getUser();
+          const { email: userEmail, family_name, given_name } = await oktaAuth.getUser();
  
           dispatch(authGetProfileAction.success({
-            email: oktaUserEmail,
+            email: userEmail,
             firstName: given_name,
             lastName: family_name,
           }));
