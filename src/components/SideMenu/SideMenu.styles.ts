@@ -12,9 +12,14 @@ export const getStyles = (theme: GrafanaTheme) => {
       width: 250px;
     `,
     navSectionLabel: css`
-      color: ${colors.text};
+      color: ${colors.textWeak};
       font-size: ${typography.size.sm};
       margin-bottom: ${spacing.md}
+    `,
+    section: css`
+      &:not(:first-child) {
+        margin-top: ${spacing.xl};
+      }
     `,
   };
 };
