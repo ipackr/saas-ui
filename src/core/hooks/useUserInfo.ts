@@ -23,12 +23,18 @@ export const useUserInfo = (): [AuthState, (payload: UpdateProfilePayload) => vo
         dispatch(authGetProfileAction.request());
 
         try {
+          let role = '';
           const { email: userEmail, family_name, given_name } = await oktaAuth.getUser();
           const { data: orgData } = await searchOrgs();
           // We are assuming one org per user, as for now
-          const [ { id: orgId = '', name: orgName} ] = orgData.orgs || [{}];
-          const { data: memberData } = await searchOrgMembers(orgId, userEmail);
-          const [ { role } ] = memberData.members || [{}];
+          const [ { id: orgId = '', name: orgName } ] = orgData.orgs || [{}];
+
+          if (orgId) {
+            const { data: memberData } = await searchOrgMembers(orgId, userEmail);
+            const [ { role: orgRole } ] = memberData.members || [{}];
+
+            role = orgRole;
+          }
           
  
           dispatch(authGetProfileAction.success({
