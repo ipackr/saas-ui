@@ -1,13 +1,14 @@
 import { OktaAuth } from '@okta/okta-auth-js';
-import { OAUTH_CLIENT_ID, OAUTH_ISSUER_URI, PORTAL_HOST } from './constants';
+import { OKTA_CLIENT_ID, OKTA_ISSUER_URI } from './constants';
 
+const ORIGIN = window.location.origin;
 
 export const authConfig = {
-  clientId: OAUTH_CLIENT_ID,
-  issuer: OAUTH_ISSUER_URI,
+  clientId: OKTA_CLIENT_ID,
+  issuer: OKTA_ISSUER_URI,
   pkce: true,
-  postLogoutRedirectUri: `${PORTAL_HOST}`,
-  redirectUri: `${PORTAL_HOST}/login/callback`,
+  postLogoutRedirectUri: `${ORIGIN}`,
+  redirectUri: `${ORIGIN}/login/callback`,
   scopes: ['openid', 'profile', 'email', 'percona'],
 };
 
