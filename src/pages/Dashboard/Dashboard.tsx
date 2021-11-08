@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { LinkButton, useStyles } from '@grafana/ui';
-import { useDispatch, useSelector } from 'react-redux';
-import { authGetProfileAction, getAuth } from 'store/auth';
+import { useDispatch } from 'react-redux';
+import { authGetProfileAction } from 'store/auth';
+import { useUserInfo } from 'core/hooks/useUserInfo';
 import { PrivateLayout } from 'components/Layouts';
 import { getStyles } from './Dashboard.styles';
 import { Messages } from './Dashboard.messages';
@@ -10,8 +11,8 @@ import { LINKS } from './Dashboard.constants';
 export const DashboardPage: FC = () => {
   const dispatch = useDispatch();
   const styles = useStyles(getStyles);
-
-  const { firstName, lastName, org } = useSelector(getAuth);
+  const [user] = useUserInfo();
+  const { org, firstName, lastName } = user;
 
   useEffect(() => {
     dispatch(authGetProfileAction.request());
