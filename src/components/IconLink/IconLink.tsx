@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { useStyles } from '@grafana/ui';
 import { NavLink } from 'react-router-dom';
+import { SidebarItem } from 'components/SidebarItem';
 import { getStyles } from './IconLink.styles';
 import { IconLinkProps } from './IconLink.types';
 
@@ -9,8 +10,9 @@ export const IconLink: FC<IconLinkProps> = ({ alt, children, icon, to }) => {
 
   return (
     <NavLink to={to} data-testid="nav-link" activeClassName={styles.linkActive} className={styles.link}>
-      <img alt={alt} src={icon} className={styles.linkIcon} />
-      {children}
+      <SidebarItem alt={alt} icon={icon}>
+        {children}
+      </SidebarItem>
     </NavLink>
   );
 };
