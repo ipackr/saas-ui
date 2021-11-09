@@ -1,15 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
-import useFetch, { CachePolicies } from 'use-http';
+import React, { FC, useState } from 'react';
 import { Form, FormRenderProps, Field } from 'react-final-form';
-import { getUseHttpConfig } from 'core/api/api.service';
 import { useStyles, Button, Label, Select } from '@grafana/ui';
 import { LoaderButton, Modal, TextInputField, validators } from '@percona/platform-core';
-import { toast } from 'react-toastify';
 import { getStyles } from './InviteMember.styles';
 import { Messages } from './InviteMember.messages';
-import { GET_ORGANIZATION_URL, ROLES, ORGANIZATION_MEMBER_URL_CHUNK } from './InviteMember.constants';
-import { MemberRole } from '../ManageOrganization.types';
-import { InviteMemberFormFields, InviteMemberProps } from './InviteMember.types';
+import { ROLES } from './InviteMember.constants';
+import { InviteMemberFormFields, MemberRole } from '../ManageOrganization.types';
+import { InviteMemberProps } from './InviteMember.types';
 
 const { email: emailValidator, required } = validators;
 
@@ -18,20 +15,9 @@ const initialValues = {
   role: ROLES.find((role) => role.value === MemberRole.technical),
 };
 
-export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
+export const InviteMember: FC<InviteMemberProps> = ({ onInviteMemberSubmit, loading }) => {
   const styles = useStyles(getStyles);
-  const fetchConfig = getUseHttpConfig(
-    undefined,
-    { cachePolicy: CachePolicies.NO_CACHE },
-  );
-  const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(data?.message ? data.message : Messages.fetchError);
-    }
-  }, [data, error]);
 
   const handleModalClose = () => {
     setIsModalVisible((currentValue) => !currentValue);
@@ -41,16 +27,9 @@ export const InviteMember: FC<InviteMemberProps> = ({ orgId }) => {
     setIsModalVisible(true);
   };
 
-  const handleInviteMemberSubmit = async ({ email, role }: InviteMemberFormFields) => {
-    await post(`${GET_ORGANIZATION_URL}\\${orgId}\\${ORGANIZATION_MEMBER_URL_CHUNK}`, {
-      username: email,
-      role: role.value,
-    });
-
-    if (response.ok) {
-      toast.success(Messages.inviteSuccess);
-      setIsModalVisible(false);
-    }
+  const handleInviteMemberSubmit = (formData: InviteMemberFormFields) => {
+    setIsModalVisible(false);
+    onInviteMemberSubmit(formData);
   };
 
   return (

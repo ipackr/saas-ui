@@ -1,11 +1,6 @@
-import { SelectableValue } from '@grafana/data';
-import { MemberRole } from '../ManageOrganization.types';
-
-export interface InviteMemberFormFields {
-  email: string;
-  role: SelectableValue<MemberRole>;
-}
+import { InviteMemberFormFields } from '../ManageOrganization.types';
 
 export interface InviteMemberProps {
-  orgId: string;
+  onInviteMemberSubmit: ({ email, role }: InviteMemberFormFields) => Promise<void>;
+  loading: boolean;
 }

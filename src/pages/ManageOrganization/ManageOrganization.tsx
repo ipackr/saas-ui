@@ -1,17 +1,16 @@
 import React, { FC, useCallback, useMemo, useEffect, useState } from 'react';
-import useFetch, { CachePolicies } from 'use-http';
+import useFetch from 'use-http';
 import { toast } from 'react-toastify';
 import { useStyles, Tab, TabsBar, TabContent } from '@grafana/ui';
 import { getUseHttpConfig } from 'core/api/api.service';
 import { PrivateLayout } from 'components/Layouts';
 import { ReactComponent as OrganizationLogo } from 'assets/organization.svg';
-import { useSelector } from 'react-redux';
-import { getAuth } from 'store/auth';
+import { useUserRole } from 'core/hooks';
 import { Messages } from './ManageOrganization.messages';
 import { getStyles } from './ManageOrganization.styles';
 import { formatMembers } from './ManageOrganization.utils';
-import { CreateOrganizationPayload, Member, MemberPayload, MemberRole } from './ManageOrganization.types';
-import { DEFAULT_TAB_INDEX, GET_USER_ORGS_URL, ORGANIZATIONS_URL, GET_MEMBERS_URL_CHUNK } from './ManageOrganization.constants';
+import { CreateOrganizationPayload, Member, MemberRole, InviteMemberFormFields } from './ManageOrganization.types';
+import { DEFAULT_TAB_INDEX, GET_USER_ORGS_URL, ORGANIZATIONS_URL, GET_MEMBERS_URL_CHUNK, ORGANIZATION_MEMBER_URL_CHUNK } from './ManageOrganization.constants';
 import { OrganizationView } from './OrganizationView';
 import { OrganizationCreate } from './OrganizationCreate';
 import { InviteMember } from './InviteMember';
@@ -23,12 +22,13 @@ export const ManageOrganizationPage: FC = () => {
   const [orgMembers, setOrgMembers] = useState<Member[]>([]);
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
-  const { email } = useSelector(getAuth);
-  const fetchConfig = getUseHttpConfig(
-    undefined,
-    { cachePolicy: CachePolicies.NO_CACHE },
-  );
+  const [userRole] = useUserRole();
+  const fetchConfig = getUseHttpConfig();
   const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
+
+  useEffect(() => {
+    setUserIsAdmin(userRole === MemberRole.admin);
+  }, [userRole]);
 
   const handleCreateOrgSubmit = useCallback(async ({ organizationName }: CreateOrganizationPayload) => {
     const { org } = await post(ORGANIZATIONS_URL, { name: organizationName });
@@ -39,13 +39,26 @@ export const ManageOrganizationPage: FC = () => {
     }
   }, [post, response.ok]);
 
+  const handleInviteMemberSubmit = useCallback(async ({ email, role }: InviteMemberFormFields) => {
+    await post(`${ORGANIZATIONS_URL}/${orgId}/${ORGANIZATION_MEMBER_URL_CHUNK}`, {
+      username: email,
+      role: role.value,
+    });
+
+    if (response.ok) {
+      toast.success(Messages.inviteMemberSuccess);
+    }
+  }, [post, orgId, response.ok]);
+
   const tabs = useMemo(() => [
     {
       label: Messages.members,
       disabled: !orgId,
       content: (
         <div data-testid="manage-organization-members-tab">
-          {userIsAdmin && <InviteMember orgId={orgId!} />}
+          {userIsAdmin && (
+            <InviteMember onInviteMemberSubmit={handleInviteMemberSubmit} loading={loading} />
+          )}
           <MembersList members={orgMembers} loading={loading} />
         </div>
       ),
@@ -68,11 +81,14 @@ export const ManageOrganizationPage: FC = () => {
         </div>
       ),
     },
-  ], [handleCreateOrgSubmit, loading, orgId, orgMembers, userIsAdmin]);
+  ], [handleCreateOrgSubmit, handleInviteMemberSubmit, loading, orgId, orgMembers, userIsAdmin]);
 
   useEffect(() => {
     const getOrgs = async () => {
-       await post(GET_USER_ORGS_URL);
+      const { orgs } = await post(GET_USER_ORGS_URL);
+
+      setOrgId(orgs[0].id);
+      // setActiveTab(tabs.findIndex((tab) => tab.label === Messages.members));
     };
 
     getOrgs();
@@ -82,31 +98,23 @@ export const ManageOrganizationPage: FC = () => {
     if (error) {
       toast.error(data?.message ? data.message : Messages.fetchError);
     }
-
-    if (data?.orgs?.length) {
-      setOrgId(data?.orgs[0].id);
-      setActiveTab(tabs.findIndex((tab) => tab.label === Messages.members));
-    }
-  }, [error, data, tabs]);
+  }, [error, data]);
 
   useEffect(() => {
-    const getUserRole = async () => {
+    const getOrgMembers = async () => {
       const { members } = await post(`${ORGANIZATIONS_URL}/${orgId}/${GET_MEMBERS_URL_CHUNK}`);
 
       setOrgMembers(formatMembers(members));
-
-      const loggedInMember = members?.find((member: MemberPayload) => member.username === email);
-
-      setUserIsAdmin(loggedInMember?.role === MemberRole.admin);
     };
 
     if (orgId) {
-      getUserRole();
+      getOrgMembers();
     }
-  }, [email, post, orgId]);
+  }, [orgId, post]);
 
   return (
     <PrivateLayout>
+      <div>Role: {userRole}</div>
       <div data-testid="manage-organization-container" className={styles.container}>
         <header data-testid="manage-organization-header">
           <OrganizationLogo />

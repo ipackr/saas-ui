@@ -1,3 +1,5 @@
+import { SelectableValue } from '@grafana/data';
+
 export interface CreateOrganizationPayload {
   organizationName: string;
 }
@@ -25,4 +27,9 @@ export interface Member {
   email: string;
   role: MemberRole;
   status: MemberStatus;
+}
+
+export interface InviteMemberFormFields {
+  email: string;
+  role: SelectableValue<MemberRole>;
 }
