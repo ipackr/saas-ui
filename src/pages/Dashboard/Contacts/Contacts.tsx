@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { LinkButton, useStyles } from '@grafana/ui';
 import { useDispatch } from 'react-redux';
-import { useUserInfo } from 'core/hooks/useUserInfo';
+import { useUserInfo, useUserRole } from 'core/hooks';
 import { authGetProfileAction } from 'store/auth';
 import { getStyles } from './Contacts.styles';
 import { Messages } from './Contacts.messages';
@@ -11,7 +11,8 @@ export const Contacts: FC = () => {
   const dispatch = useDispatch();
   const styles = useStyles(getStyles);
   const [user] = useUserInfo();
-  const { org, firstName, lastName } = user;
+  const [role] = useUserRole();
+  const { firstName, lastName } = user;
 
   useEffect(() => {
     dispatch(authGetProfileAction.request());
@@ -25,7 +26,7 @@ export const Contacts: FC = () => {
           <span className={styles.cardPoint}>{Messages.name}</span> {firstName} {lastName}
         </p>
         <p>
-          <span className={styles.cardPoint}>{Messages.role}</span> {org.role}
+          <span className={styles.cardPoint}>{Messages.role}</span> {role}
         </p>
         <p>
           <span className={styles.cardPoint}>{Messages.accountType}</span> {Messages.freeAccount}

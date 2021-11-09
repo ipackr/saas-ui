@@ -6,7 +6,7 @@ import { Routes } from 'core/routes';
 import { MAX_NAME_LENGTH } from 'core/constants';
 import { UpdateProfilePayload } from 'store/types';
 import { PrivateLayout } from 'components/Layouts';
-import { useUserInfo } from 'core/hooks/useUserInfo';
+import { useUserInfo } from 'core/hooks';
 import { getStyles } from './Profile.styles';
 import { Messages } from './Profile.messages';
 
