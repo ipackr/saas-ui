@@ -1,22 +1,15 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { LinkButton, useStyles } from '@grafana/ui';
-import { useDispatch } from 'react-redux';
 import { useUserInfo, useUserRole } from 'core/hooks';
-import { authGetProfileAction } from 'store/auth';
 import { getStyles } from './Contacts.styles';
 import { Messages } from './Contacts.messages';
 import { LINKS } from './Contacts.constants';
 
 export const Contacts: FC = () => {
-  const dispatch = useDispatch();
   const styles = useStyles(getStyles);
   const [user] = useUserInfo();
   const [role] = useUserRole();
   const { firstName, lastName } = user;
-
-  useEffect(() => {
-    dispatch(authGetProfileAction.request());
-  }, [dispatch]);
 
   return (
     <div className={styles.cardsContainer}>

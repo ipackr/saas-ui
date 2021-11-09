@@ -10,15 +10,17 @@ export const useUserRole = () => {
 
   useEffect(() => {
     const getInfo = async() => {
-      const { data: orgData } = await searchOrgs();
-      // We are assuming one org per user, as for now
-      const [ { id: orgId = '' } ] = orgData.orgs || [{}];
+      if (user.email) {
+        const { data: orgData } = await searchOrgs(); 
+        // We are assuming one org per user, as for now
+        const [ { id: orgId = '' } ] = orgData.orgs || [{}];
+  
+        if (orgId) {
+          const { data: memberData } = await searchOrgMembers(orgId, user.email);
+          const [ { role: orgRole } ] = memberData.members || [{}];
 
-      if (orgId) {
-        const { data: memberData } = await searchOrgMembers(orgId, user.email);
-        const [ { role: orgRole } ] = memberData.members || [{}];
-
-        setRole(orgRole);
+          setRole(orgRole);
+      }
       }
     };
 
