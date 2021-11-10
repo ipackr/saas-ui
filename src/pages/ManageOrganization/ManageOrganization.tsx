@@ -39,6 +39,12 @@ export const ManageOrganizationPage: FC = () => {
     }
   }, [post, response.ok]);
 
+  const getOrgMembers = useCallback(async () => {
+    const { members } = await post(`${ORGANIZATIONS_URL}/${orgId}/${GET_MEMBERS_URL_CHUNK}`);
+
+    setOrgMembers(formatMembers(members));
+  }, [post, orgId]);
+
   const handleInviteMemberSubmit = useCallback(async ({ email, role }: InviteMemberFormFields) => {
     await post(`${ORGANIZATIONS_URL}/${orgId}/${ORGANIZATION_MEMBER_URL_CHUNK}`, {
       username: email,
@@ -47,8 +53,9 @@ export const ManageOrganizationPage: FC = () => {
 
     if (response.ok) {
       toast.success(Messages.inviteMemberSuccess);
+      getOrgMembers();
     }
-  }, [post, orgId, response.ok]);
+  }, [post, orgId, getOrgMembers, response.ok]);
 
   const tabs = useMemo(() => [
     {
@@ -85,10 +92,7 @@ export const ManageOrganizationPage: FC = () => {
 
   useEffect(() => {
     const getOrgs = async () => {
-      const { orgs } = await post(GET_USER_ORGS_URL);
-
-      setOrgId(orgs[0].id);
-      // setActiveTab(tabs.findIndex((tab) => tab.label === Messages.members));
+      await post(GET_USER_ORGS_URL);
     };
 
     getOrgs();
@@ -98,23 +102,21 @@ export const ManageOrganizationPage: FC = () => {
     if (error) {
       toast.error(data?.message ? data.message : Messages.fetchError);
     }
-  }, [error, data]);
+
+    if (data?.orgs?.length) {
+      setOrgId(data?.orgs[0].id);
+      setActiveTab(tabs.findIndex((tab) => tab.label === Messages.members));
+    }
+  }, [error, data, tabs]);
 
   useEffect(() => {
-    const getOrgMembers = async () => {
-      const { members } = await post(`${ORGANIZATIONS_URL}/${orgId}/${GET_MEMBERS_URL_CHUNK}`);
-
-      setOrgMembers(formatMembers(members));
-    };
-
     if (orgId) {
       getOrgMembers();
     }
-  }, [orgId, post]);
+  }, [getOrgMembers, orgId]);
 
   return (
     <PrivateLayout>
-      <div>Role: {userRole}</div>
       <div data-testid="manage-organization-container" className={styles.container}>
         <header data-testid="manage-organization-header">
           <OrganizationLogo />
