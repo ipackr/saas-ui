@@ -1,14 +1,9 @@
 import React from 'react';
-import { toast } from 'react-toastify';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TestContainer } from 'components/TestContainer';
 import { InviteMember } from '.';
 
 const mockPost = jest.fn().mockResolvedValue({ orgs: [{ id: 1337 }] });
-
-const toastError = jest.spyOn(toast, 'error');
-
-let mockError: string | null = null;
 
 jest.mock('use-http', () => {
   const originalModule = jest.requireActual('@percona/platform-core');
@@ -21,7 +16,7 @@ jest.mock('use-http', () => {
     },
     default: () => ({
       data: {},
-      error: mockError,
+      error: null,
       loading: false,
       post: mockPost,
       response: {
@@ -31,13 +26,11 @@ jest.mock('use-http', () => {
   };
 });
 
-const testOrgId = '123';
-
 describe('Invite Members', () => {
   test('renders the invite button', async () => {
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={jest.fn()} />
       </TestContainer>,
     );
 
@@ -49,7 +42,7 @@ describe('Invite Members', () => {
   test('the modal is not visible by default', async () => {
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={jest.fn()} />
       </TestContainer>,
     );
 
@@ -61,7 +54,7 @@ describe('Invite Members', () => {
   test('shows the modal after clicking on the invite button', async () => {
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={jest.fn()} />
       </TestContainer>,
     );
 
@@ -75,7 +68,7 @@ describe('Invite Members', () => {
   test('closes the modal', async () => {
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={jest.fn()} />
       </TestContainer>,
     );
 
@@ -90,7 +83,7 @@ describe('Invite Members', () => {
   test('the save button is disabled if the form is not valid', async () => {
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={jest.fn()} />
       </TestContainer>,
     );
 
@@ -112,7 +105,7 @@ describe('Invite Members', () => {
   test('the save button is enabled if the form is valid', async () => {
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={jest.fn()} />
       </TestContainer>,
     );
 
@@ -123,20 +116,30 @@ describe('Invite Members', () => {
     const submitButton = await screen.findByTestId('invite-member-submit-button');
     const emailInput = await screen.findByTestId('email-text-input');
 
-    fireEvent.change(emailInput, { target: { value: 'invalid@email.com' } });
+    fireEvent.change(emailInput, { target: { value: 'valid@email.com' } });
 
     expect(submitButton).toBeEnabled();
   });
 
-  test('shows an error if an API call fails', async () => {
-    mockError = 'Error';
+  test('calls the passed function on submit', async () => {
+    const testCallback = jest.fn();
 
     render(
       <TestContainer>
-        <InviteMember orgId={testOrgId} />
+        <InviteMember onInviteMemberSubmit={testCallback} />
       </TestContainer>,
     );
 
-    expect(toastError).toBeCalledTimes(1);
+    const openModal = await screen.findByTestId('invite-member-button');
+
+    fireEvent.click(openModal);
+
+    const submitButton = await screen.findByTestId('invite-member-submit-button');
+    const emailInput = await screen.findByTestId('email-text-input');
+
+    fireEvent.change(emailInput, { target: { value: 'valid@email.com' } });
+    fireEvent.click(submitButton);
+
+    expect(testCallback).toBeCalledTimes(1);
   });
 });
