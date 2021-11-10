@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
-import { searchOrgs, searchOrgMembers } from 'core/api/orgs';
+import { searchOrgMembers } from 'core/api/orgs';
 import { useUserInfo } from './useUserInfo';
 
-export const useUserRole = () => {
+export const useUserRole = (orgId?: string) => {
   const [role, setRole] = useState('');
   const [user] = useUserInfo();
   const { oktaAuth } = useOktaAuth();
 
   useEffect(() => {
     const getInfo = async() => {
-      const { data: orgData } = await searchOrgs();
-      // We are assuming one org per user, as for now
-      const [ { id: orgId = '' } ] = orgData.orgs || [{}];
+      const { data: memberData } = await searchOrgMembers(orgId!, user.email);
+      const [ { role: orgRole } ] = memberData.members || [{}];
 
-      if (orgId) {
-        const { data: memberData } = await searchOrgMembers(orgId, user.email);
-        const [ { role: orgRole } ] = memberData.members || [{}];
-
-        setRole(orgRole);
-      }
+      setRole(orgRole);
     };
 
-    getInfo();
-  }, [oktaAuth, user.email]);
+    if (user.email && orgId) {
+      getInfo();
+    }
+  }, [oktaAuth, user.email, orgId]);
 
   return [role];
 };

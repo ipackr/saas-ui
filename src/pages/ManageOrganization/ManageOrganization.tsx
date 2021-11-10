@@ -22,13 +22,13 @@ export const ManageOrganizationPage: FC = () => {
   const [orgMembers, setOrgMembers] = useState<Member[]>([]);
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState(DEFAULT_TAB_INDEX);
-  const [userRole] = useUserRole();
+  const [userRole] = useUserRole(orgId);
   const fetchConfig = getUseHttpConfig();
   const { response, error, loading, post, data = {} } = useFetch(...fetchConfig);
 
   useEffect(() => {
     setUserIsAdmin(userRole === MemberRole.admin);
-  }, [userRole]);
+  }, [userRole, orgMembers]);
 
   const handleCreateOrgSubmit = useCallback(async ({ organizationName }: CreateOrganizationPayload) => {
     const { org } = await post(ORGANIZATIONS_URL, { name: organizationName });
